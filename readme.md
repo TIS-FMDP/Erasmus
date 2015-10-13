@@ -1,4 +1,4 @@
-FMFI Erasmus
+# FMFI Erasmus
 
 Records agreements between universities, student trips, courses taken. 
 Allows attaching files. Simple. PHP&MYSQL based web app.
