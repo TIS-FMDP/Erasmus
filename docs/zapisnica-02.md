@@ -1,6 +1,7 @@
 # Zápisnica č.2
 
 **Dátum stretnutia** 11.10.2015
+
 **Prítomní členovia** Marek Dubovský, Pavel Rajčok, Daniel Derevjanik, František Pitorák
 
 Zoznam vecí na prediskutovanie:
