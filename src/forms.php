@@ -47,7 +47,7 @@ if ($userrole === 'admin')
 function show_public_menu()
 {
 ?>
-[<a href="index.php?m=agreements">bilateral agreements</a>]
+[<a href="index.php?m=agreements">bilateral agreements</a>]&nbsp;[<a href="index.php?m=application">application form</a>]
 <br/><br />
 <?PHP
 }

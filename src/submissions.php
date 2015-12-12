@@ -3,6 +3,7 @@ function process_public_submissions()
 {
 	switch ($_GET['m']):
 		case 'agreements': process_agreements(); break;
+    case 'application': process_application(); break;
 	endswitch;
 }
 

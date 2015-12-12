@@ -1,7 +1,7 @@
 <?PHP
 include 'config.php';
 include 'db.php';
-include 'forms.php';
+include 'forms.php';   
 include 'submissions.php';
 include 'agreements.php';
 include 'universities.php';
@@ -11,11 +11,13 @@ include 'subjectareas.php';
 include 'students.php';
 include 'travels.php';
 include 'foreigncredits.php';
-include 'fmficredits.php';
+include 'fmficredits.php';      
 include 'control_logic.php';
+include 'application.php';
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 session_start();
 $link = db_connect();
-show_headers(determine_year_filter_need());
+show_headers(determine_year_filter_need());    
 if (determine_user_credentials())
 {
 	show_main_menu();
@@ -25,7 +27,7 @@ else
 {
 	show_public_menu();
 	process_public_submissions();
-}
+}            
 show_footers();
 $link->close();
 ?>
