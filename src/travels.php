@@ -110,8 +110,9 @@ function format_travel_data($tsdata)
 {
 	$ftv = array();
 	foreach ($tsdata as $t)
-	{
-		$rw = array($t[0], studylevel($t[1]), $t[2][1], semester($t[7], $t[17]), $t[3], $t[4], $t[5][1], $t[6][1], $t[8][1], $t[9], $t[10], YesOrNothing($t[11]), YesOrNothing($t[12]), format_files($t[13]), $t[14],"<article>".$t[15]."</article>", YesOrNothing($t[16]));
+
+	{	
+		$rw = array($t[0], studylevel($t[1]), $t[2][1], semester($t[7], $t[17]), $t[3], $t[4], $t[5][1], $t[6][1], $t[8][1], $t[9], $t[10], YesOrNothing($t[11]), YesOrNothing($t[12]), format_files($t[13]), "<article>".$t[14]."</article>", $t[15], YesOrNothing($t[16]));
 		$ftv[] = $rw;
 	}
 	return $ftv;

@@ -1,8 +1,11 @@
+
+
 <?php  
 function process_application(){  
-
+ 
 include 'includes/form.php';
 include 'includes/safe.php';
+include 'includes/class.phpmailer.php';
 $link = db_connect();
 $code = substr(md5(uniqid(rand(), true)), 16, 16); 
 $submit = (isset($_POST['send'])) ? true : false;
@@ -11,14 +14,28 @@ $student_name = ($submit) ? $safe->input($_POST['student_name']) : '';
 $student_surname = ($submit) ? $safe->input($_POST['student_surname']) : '';
 $student_surname = ($submit) ? $safe->input($_POST['student_surname']) : '';
 $birthdate = ($submit) ? $safe->input($_POST['birthdate']) : '';
-$address = ($submit) ? $safe->input($_POST['address']) : '';
-$phone = ($submit) ? $safe->input($_POST['phone']) : '';
+$citizenship = ($submit) ? $safe->input($_POST['citizenship']) : '';
+$study_program = ($submit) ? $safe->input($_POST['study_program']) : '';
+$study_year = ($submit) ? $safe->input($_POST['study_year']) : '';
+$semester = ($submit) ? $safe->input($_POST['semester']) : '';
+$notes = ($submit) ? $safe->input($_POST['notes']) : '';
+$ztp = ($submit) ? $safe->input($_POST['ztp']) : 0;
 
+$birthdate = ($submit) ? $safe->input($_POST['birthdate']) : '';
+$gender = ($submit) ? $safe->input($_POST['gender']) : '';
 $email = ($submit) ? $safe->input($_POST['email']) : '';
 $pass = ($submit) ? $safe->input($_POST['pass']) : '';
 $pass_check = ($submit) ? $safe->input($_POST['pass_check']) : '';
+
+
+//errors catching
 $error = false;
 $error_log = "";
+
+$act_year = date("Y");
+$next_year = $act_year + 1;
+$year = $act_year.'/'.$next_year;
+
 
 if($submit){
 if($pass != $pass_check){
@@ -38,10 +55,36 @@ if (exist('users', 'email', $email))
     $error_log .= 'Zadaný email už niekto používa!'.'<br>';  
     $error = true;              
   }
+
+  $temp_born = explode(".",$birthdate);
+  // Palko edit 
+  if(count($temp_born) != 3 && strlen($temp_born[2]) != 4 && strlen($temp_born[1]) != 2 && 
+  strlen($temp_born[0]) != 2 && is_int($temp_born[2]) == false && is_int($temp_born[1]) == false && is_int($temp_born[0]) == false){
+    $error_log .= 'Nesprávne zadaný dátum narodenia'.'<br>';  
+    $error = true; 
+  }
+  else{
+    $born = $temp_born[2].'/'.$temp_born[1].'/'.$temp_born[0];
+  }
+  
+
 if ($error== false){
-    $sql = 'INSERT INTO users (role, email, passwd, name,student_id, reg_code,reg_valid) VALUES ("student", "' . $email . '", "' . md5($pass) . '","' . $student_name . $student_surname.'", 0, "'. $code .'",0);';    
-    $query = mysqli_query($link,$sql) or die(mysqli_error($link));
-    if($query){
+    // insert into students
+    $sql = 'INSERT INTO students (firstname,middlenames,lastname,born,student_id,gender,citizenship, email, year) VALUES ("' . $student_name . '", "", "'.$student_surname.'", "' . $born . '", "","' . $gender .'", "' . $citizenship .'","' . $email .'","' . $year .'");';    
+    $query1 = mysqli_query($link,$sql) or die(mysqli_error($link));
+    
+    //insert into users
+    $student_id = mysqli_insert_id($link);
+    $sql = 'INSERT INTO users (role, email, passwd, name,student_id, reg_code,reg_valid) VALUES ("student", "' . $email . '", "' . md5($pass) . '","' . $student_name . $student_surname.'", "'. $student_id .'", "'. $code .'",0);';    
+    $query2 = mysqli_query($link,$sql) or die(mysqli_error($link));
+    
+    $sql = 'INSERT INTO student_study_programs (id_student,id_studyprogram) VALUES ("' . $student_id . '", "'. $study_program .'");';    
+    $query3 = mysqli_query($link,$sql) or die(mysqli_error($link));
+    
+    $id_student_program = mysqli_insert_id($link);
+    $sql = 'INSERT INTO student_exchanges (id_student_study_program,study_year,agreement_id,from_date,to_date,semester,id_language,studentlevel,requiredlevel,socialstipend,handicapped,notes,cancelled,year) VALUES ("' . $id_student_program . '", "'. $study_year .'",0,1970/01/01, 1970/01/01, "'. $semester .'",0,"","",0,"'. $ztp .'","'. $notes .'",0,"'. $year .'");';    
+    $query4 = mysqli_query($link,$sql) or die(mysqli_error($link));
+    if($query1 && $query2 && $query3 && $query4){
       $error_log .= 'Boli ste úspešne zaregistrovaný!';
       try{
         $mail = new PHPMailer();
@@ -69,6 +112,7 @@ echo '<html>
 <!-- Latest compiled and minified CSS -->
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="moj_style.css">
 <form class="form-horizontal" name="application" method="post">
 <fieldset>
 <!-- Form Name -->
@@ -126,20 +170,21 @@ echo '<html>
   </div>
 </div>
 
-<!-- Text input-->
+<!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Adresa</label>  
+  <label class="col-md-4 control-label" for="selectbasic">Aktuálny študijný program</label>
   <div class="col-md-4">
-  <input id="textinput" name="address" type="text" placeholder="" class="form-control input-md">
+    <select id="selectbasic" name="study_program" class="form-control">
+    <option value="None">Výber študijného programu</option>
+    ';
+    $query = "SELECT id, code, name  from study_programs order by name ASC;";
+    $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Telefónne číslo</label>  
-  <div class="col-md-4">
-  <input id="textinput" name="phone" type="text" placeholder="" class="form-control input-md">
+    while ($row = mysqli_fetch_array($result))
+    {
+      echo "<option value='".$row['id']."'>".$row['name']." - ".$row['code']."</option>";
+    }
+    echo '</select>
     
   </div>
 </div>
@@ -150,16 +195,30 @@ echo '<html>
   <div class="col-md-4">
   <div class="radio">
     <label for="radios-0">
-      <input type="radio" name="semester" id="radios-0" value="1" checked="checked">
+      <input type="radio" name="semester" id="radios-0" value="W" checked="checked">
       Zimný
     </label>
 	</div>
   <div class="radio">
     <label for="radios-1">
-      <input type="radio" name="semester" id="radios-1" value="2">
+      <input type="radio" name="semester" id="radios-1" value="S">
       Letný
     </label>
 	</div>
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="selectbasic">Stupeň štúdia</label>
+  <div class="col-md-4">
+    <select id="selectbasic" name="study_year" class="form-control">
+    <option value="None">Výber stupňa štúdia</option>         
+    <option value="1">Bc.</option>
+    <option value="2">Mgr.</option>
+    <option value="3">Phd.</option>
+    </select>
+    
   </div>
 </div>
 
@@ -287,7 +346,7 @@ echo '<html>
 <div class="form-group">
   <label class="col-md-4 control-label" for="textarea">Účasť na projektoch/iné aktivity</label>
   <div class="col-md-4">                     
-    <textarea class="form-control" id="textarea" name="projects"></textarea>
+    <textarea class="form-control" id="textarea" name="notes"></textarea>
   </div>
 </div>
 <!-- File Button --> 
@@ -363,8 +422,8 @@ echo '<html>
 </fieldset>
 </form>
 </html>';
-//}
 }
 
 ?>
+
 

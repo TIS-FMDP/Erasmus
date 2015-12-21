@@ -1,0 +1,73 @@
+.img_logo1 {
+	position: absolute;
+	top: 2%;
+	left: 75%;
+}
+.img_logo2 {
+	position: absolute;
+	top: 2%;
+	left: 60%;
+}
+
+.main {
+	display: inline-block;
+	width: 100%;
+}
+
+.btn {
+	float:right;
+	margin: 5px;
+}
+
+
+body{
+	background-color:white;
+}
+
+#sidebar {
+	padding-left:3px;
+	vertical-align: top;
+	display: inline-block;
+	width: 14%;
+	
+	}
+
+#sidebar a{
+	background-color: #337ab7;
+	color:white;
+	font-style: oblique;
+	font-weight: bold;
+}
+
+.nav a:hover{
+	background-color: #24a6db !important;
+}
+
+.tables{
+	display: inline-block;
+	width: 83%;
+}
+
+.main_table {
+  display: inline-block;
+  width: 69%;
+}
+
+
+
+hr{
+	margin-top:0px;
+}
+
+.jumbotron{
+	background-color: #337ab7;
+	color:white;
+	margin-bottom: 0px;
+	
+}
+
+.form-inline{
+	float:right;
+	padding-right:20px;
+	padding-top:20px;
+}

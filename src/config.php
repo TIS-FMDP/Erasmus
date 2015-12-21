@@ -1,5 +1,5 @@
 <?PHP
-$ERA = '/var/www/erasmus/';
+$ERA = '';
 $logON = false;
 $dekan = 'prof. RNDr. Jozef Masarik, DrSc.';
 setlocale(LC_COLLATE, "sk_SK");

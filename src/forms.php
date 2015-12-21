@@ -1,15 +1,21 @@
+
 <?PHP
 function show_login_form()
 {
 ?>
-<b>Administrative staff login:</b><br /><br />
-<form action="index.php" method="POST">
-<table><tbody>
-<tr><td>e-mail:</td><td><input type="text" name="email" size="30" /></td></tr>
-<tr><td>password:</td><td><input type="password" name="passwd" size="30" /></td></tr>
-<tr><td colspan="2"><input type="submit" name="login" value="Login" /></td></tr>
-</tbody></table>
+<body>
+<form class="form-inline action="index.php" method="POST"">
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputEmail3">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email" type="text" name="email"">
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputPassword3">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password" type="password" name="passwd"">
+  </div>
+  <button type="submit" class="btn btn-default" name="login" value="Login">Sign in</button>
 </form>
+
 <?PHP
 }
 
@@ -17,38 +23,68 @@ function show_main_menu()
 {
 global $userid, $userrole;
 
-if (strlen($userid) === 0) return;
 ?>
-[<a href="index.php?m=welcome">welcome</a>]
-[<a href="index.php?m=agreements">bilateral agreements</a>]
-[<a href="index.php?m=travels">travels</a>]
-[<a href="index.php?m=foreigncredits">travel foreign courses</a>]
-[<a href="index.php?m=fmficredits">travel FMFI courses</a>]<br />
-[<a href="index.php?m=universities">universities</a>]
-[<a href="index.php?m=students">students</a>]
-[<a href="index.php?m=studyprogs">study programs</a>]
-[<a href="index.php?m=fmficourses">FMFI courses</a>]
-[<a href="index.php?m=subjectareas">subject areas</a>]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a type="button" class="btn btn-default" href="index.php?m=logout">Logout</button></a>
+
 <?PHP
 if ($userrole === 'admin')
 {
 ?>
-[<a href="index.php?m=logs">logs</a>]
-[<a href="index.php?m=export">export</a>]
+<a type="button" class="btn btn-default" href="index.php?m=logs">Logs</button></a>
+<a type="button" class="btn btn-default" href="index.php?m=export">Export</button></a>
 <?PHP
 }
 ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-[<a href="index.php?m=logout">logout</a>]
-<br /><br />
+
+
+
+<?PHP
+
+if (strlen($userid) === 0) return;
+?>
+
+<div class="main">
+	<hr>
+	<div id="sidebar">
+		<ul class="nav nav-pills nav-stacked">
+			<li><a href="index.php?m=welcome">Welcome</a></li>
+			<li><a href="index.php?m=agreements">Bilateral agreements</a></li>
+			<li><a href="index.php?m=travels">Travels</a></li>
+			<li><a href="index.php?m=foreigncredits">Travel foreign courses</a></li>
+			<li><a href="index.php?m=fmficredits">Travel FMFI courses</a></li>
+			<li><a href="index.php?m=universities">Universities</a></li>
+			<li><a href="index.php?m=students">Students</a></li>
+			<li><a href="index.php?m=studyprogs">Study programs</a></li>
+			<li><a href="index.php?m=fmficourses">FMFI courses</a></li>
+			<li><a href="index.php?m=subjectareas">Subject areas</a></li>
+		</ul>
+	</div>
+	<div class="tables">
+
+
 <?PHP
 }
 
 function show_public_menu()
 {
 ?>
-[<a href="index.php?m=agreements">bilateral agreements</a>]&nbsp;[<a href="index.php?m=application">application form</a>]
-<br/><br />
+
+<div class="main">
+	<hr>
+	<div id="sidebar">
+		<ul class="nav nav-pills nav-stacked">
+			<li><a href="index.php?m=welcome">Welcome</a></li>
+			<li><a href="index.php?m=application">Application form</a></li>
+			<li><a href="index.php?m=agreements">Bilateral agreements</a></li>
+		</ul>
+	</div>
+	<div class="tables">
+	
+
+
+
+
 <?PHP
 }
 
@@ -100,6 +136,8 @@ function sortby($a, $b)
 
 function show_table($column_labels, $data, $show_controls = TRUE, $print_button = FALSE)
 {
+?>
+<?PHP
 global $filter_url, $sortby, $sortreverse, $selected_year;
 
 if (isset($_GET['s']))
@@ -141,6 +179,8 @@ foreach ($data as $row)
 }
 ?>
 </tbody></table>
+
+
 <?PHP
 print "<br />$nrecs record(s).<br /><br />";
 if ($show_controls)
@@ -306,7 +346,9 @@ function show_remove_form($formatted_records, $record_ids, $fwdvars=array())
  <input type="submit" name="Remove" value="yes" />
  <input type="submit" name="Remove" value="no" />
  </form><br />
-<?PHP
+</div>
+</div>
+ <?PHP
 }
 
 function format_item($item)
@@ -346,12 +388,24 @@ function show_year_filter()
 function show_headers($year_filter)
 {
 ?>
+</body>
 <html>
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="moj_style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Internal storage for Erasmus FMFI UK</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js"></script>
+
+<div class="container">
+  <div class="jumbotron">
+  <div class="img_logo1"><img src="images/logo_sk.gif" /></div>
+  <div class="img_logo2"><img src="images/rsz_comenius-logo.png" /></div>
+    <h3>Internal storage for Erasmus FMFI UK</h3>  
+  </div>
+</div>
+
 <style>
 a {text-decoration: none; }
 a:link { color: #FF0000; }
@@ -366,16 +420,12 @@ th { background-color: #EEEEEE; }
   }
 </style>
 </head>
-<body style="font-family: Arial, Helvetica, sans-serif;">
-<table style="border: 0px solid white;"><tbody><tr><td style="border: 0px solid white;"><img src="images/logo_sk.gif" /></td>
-<td style="border: 0px solid white;"><h3>Internal storage for Erasmus FMFI UK</h3>
+
+
 <?PHP
-if ($year_filter) show_year_filter(); else print '<br /><br /><br />';
+if ($year_filter) show_year_filter(); else print '';
 ?></td>
-<td style="border: 0px solid white;"><img src="images/fmfi_logo_small.png" /></td></tr>
-<tr><td colspan="3" style=" border: 0px solid white;"><hr width="930px" /></td></tr>
-</tbody></table>
-<br />
+
 <?PHP
 }
 
@@ -390,6 +440,7 @@ function show_footers()
 ?>
 <script>
 $("#tblTravels>tbody>tr>td:nth-child(15)>article").each(function(item){
+  console.log(this)
 	$(this).readmore({
     collapsedHeight: 30,
   	moreLink: '<a href="#">More</a>',
