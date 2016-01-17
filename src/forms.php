@@ -4,6 +4,7 @@ function show_login_form()
 {
 ?>
 <body>
+
 <form class="form-inline action="index.php" method="POST"">
   <div class="form-group">
     <label class="sr-only" for="exampleInputEmail3">Email address</label>
@@ -61,9 +62,19 @@ if (strlen($userid) === 0) return;
 		</ul>
 	</div>
 	<div class="tables">
+        
+        <?PHP
+        global $filter_needed;
+        if ($filter_needed) {
+            show_year_filter();
+            } 
+        else { 
+            print '';
+            }
+         
 
 
-<?PHP
+
 }
 
 function show_public_menu()
@@ -151,7 +162,7 @@ $menuitem=$_GET['m'];
 $sort_url = determine_sort_url();
 if (strlen($selected_year) > 0) $yr='&y=' . $selected_year; else $yr='';
 print '<form method="post" action="index.php?m=' . $menuitem . $sort_url . $yr . '&act' . $filter_url . '">';
-print '<table><thead><tr>';
+print '<table class="table table-bordered table-hover"><thead><tr>';
 $cnt = 0;
 foreach ($column_labels as $label)
 {
@@ -384,11 +395,13 @@ function show_year_filter()
   }
   print '</select></form><br />' . "\n";
 }
-
+?>
+</body>
+<?PHP
 function show_headers($year_filter)
 {
 ?>
-</body>
+
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -422,9 +435,7 @@ th { background-color: #EEEEEE; }
 </head>
 
 
-<?PHP
-if ($year_filter) show_year_filter(); else print '';
-?></td>
+
 
 <?PHP
 }

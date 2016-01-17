@@ -17,6 +17,12 @@ include 'application.php';
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 session_start();
 $link = db_connect();
+
+global $filter_needed;
+$filter_needed = determine_year_filter_need();
+print $filter_needed;
+
+
 show_headers(determine_year_filter_need());    
 if (determine_user_credentials())
 {
