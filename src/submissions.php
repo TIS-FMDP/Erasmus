@@ -3,6 +3,7 @@ function process_public_submissions()
 {
 	switch ($_GET['m']):
 		case 'agreements': process_agreements(); break;
+    case 'application': process_application(); break;
 	endswitch;
 }
 
@@ -21,6 +22,8 @@ function process_form_submissions()
 		case 'fmficourses': process_fmfi_courses(); break;
 		case 'subjectareas': process_subject_areas(); break;
 		case 'export': process_export(); break;
+    case 'app_list': get_applications(); break;
+    case 'edit_form': edit_application(); break;
 		default:
 		case 'welcome': show_welcome(); break;
 	endswitch;

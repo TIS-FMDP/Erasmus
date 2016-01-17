@@ -1,8 +1,9 @@
 <?PHP
+error_reporting(E_WARNING);
 include 'config.php';
 include 'db.php';
 include 'control_logic.php';
-include 'forms.php';
+include 'forms.php'; 
 $link = db_connect();
 session_start();
 $id = $_GET['id'];

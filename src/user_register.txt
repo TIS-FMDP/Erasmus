@@ -1,0 +1,6 @@
+﻿Registrácia na Erasmus FMFI. Údaje o vašom účte sú nasledovné:
+
+----------------------------
+Email: {EMAIL}
+
+Heslo: {PASSWORD} Overovací link: erasmusfmfi.esy.es/confirm.php?c={CODE}

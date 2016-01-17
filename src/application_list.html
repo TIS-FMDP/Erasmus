@@ -1,0 +1,43 @@
+<?php
+function get_applications(){   
+$link = db_connect();
+
+$sql = 'SELECT a.id, a.semester,a.state, b.firstname, b.lastname FROM student_exchanges a INNER JOIN student_study_programs c ON a.id_student_study_program = c.id
+        INNER JOIN students b ON c.id_student = b.id';    
+$query = mysqli_query($link,$sql) or die(mysqli_error($link));
+$application_row = '';
+$bg = false;
+while ($row = mysql_fetch_array($query))
+        {
+          $row_bg = ($bg) ? 'row2' : 'row1';
+          $application_row .= '<tr class="' . $row_bg . '">
+	                <td>' . $row['id'] . '</td>
+                  <td>' . $row['b.firstname'] . ' ' . $row['b.lastname'] . '</td>
+	                <td>' . $row['a.semester'] . '</td>
+                  <td>' . $row['a.state'] . '</td>
+                  <td></td>
+                </tr>';
+                  $bg = !$bg;
+        }
+?>
+<h1>Zoznam prihlášok</h1>
+<p>Zoznam všetkých podaných prihlášok</p>
+
+<form method="post">                                                            
+<table width="100%" cellpadding="3" cellspacing="1" class="table1">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Meno</th>
+			<th>Semester</th>
+      <th>Stav prihlášky</th>
+			<th>Akcia</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?=$application_row?>
+	</tbody>
+</table>
+<?php
+}
+?>

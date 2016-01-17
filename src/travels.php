@@ -10,14 +10,14 @@ function process_travels()
         {
                 if ($_POST['Edit'] === 'edit')
                 {
-        		$ts = db_travels($filter_a, $filter_d1, $filter_d2); 
+        		$ts = db_travels($filter_a, $filter_d1, $filter_d2);
                         edit_travel($ts);
                 }
                 else if ($_POST['Add'] === 'add')
                         add_travel();
 		else if ($_POST['Print'] === 'print')
 		{
-        		$ts = db_travels($filter_a, $filter_d1, $filter_d2); 
+        		$ts = db_travels($filter_a, $filter_d1, $filter_d2);
 			print_link_travel($ts);
 		}
                 else if ($_POST['Save'] === 'save')
@@ -26,7 +26,7 @@ function process_travels()
                         upload_file_and_edit_travel();
                 else if ($_POST['Remove'] === 'remove')
                 {
-                        $ts = db_travels($filter_a, $filter_d1, $filter_d2); 
+                        $ts = db_travels($filter_a, $filter_d1, $filter_d2);
                         remove_record($ts);
                 }
                 else if ($_POST['Remove'] === 'yes')
@@ -50,7 +50,7 @@ function process_travels()
         }
 	$tsdata = db_travels($filter_a, $filter_d1, $filter_d2);
 	$fts = format_travel_data($tsdata);
-	show_table(array('ID', 'Level', 'Agreement', 'Semester', 'Date FROM (Y-m-d)', 'Date TO (Y-m-d)', 'Student', 'Study program', 'Language:', 'Has', 'Expected', 'Soc.stip.', 'Handicap', 'Files', 'Courses', 'Notes', 'Cancelled'), $fts, TRUE, TRUE); 
+	show_table(array('ID', 'Level', 'Agreement', 'Semester', 'Date FROM (Y-m-d)', 'Date TO (Y-m-d)', 'Student', 'Study program', 'Language:', 'Has', 'Expected', 'Soc.stip.', 'Handicap', 'Files', 'Courses', 'Notes', 'Cancelled'), $fts, TRUE, TRUE);
 }
 
 function print_link_travel($ts)
@@ -68,14 +68,14 @@ function configure_travel_filters()
 		if (strlen($_POST['filterbyagr']) > 0) $filter_a = $_POST['agreement_selection'];
 		else $filter_a = "";
 
-		if (strlen($_POST['filterbydates']) > 0) 
+		if (strlen($_POST['filterbydates']) > 0)
 		{
 			$filter_d1 = $_POST['filter_from'];
 			$filter_d2 = $_POST['filter_to'];
 		}
 	}
 	else
-	{	
+	{
 		$filter_a = $_GET['fa'];
 		$filter_d1 = $_GET['fdf'];
 		$filter_d2 = $_GET['fdt'];
@@ -91,18 +91,18 @@ function show_travel_filters($filter_a, $filter_d1, $filter_d2)
 {
 	$sort_url = determine_sort_url();
 	print '<form method="POST" action="index.php?m=travels&' . $sort_url . '&setfilter">';
-	print '<table><tbody><tr><th colspan="3">Show only travels:</th></tr><tr><td>';
+	print '<table id="tblTravels"><tbody><tr><th colspan="3">Show only travels:</th></tr><tr><td>';
 	print '<input type="checkbox" name="filterbyagr"';
 	print ((strlen($filter_a) > 0)?' checked="checked"':'') . '" /> for agreement: </td><td colspan="2">';
 	if (strlen($_POST['agreement_selection']) > 0) $fa = $_POST['agreement_selection']; else $fa = $filter_a;
 	show_select('agreement_selection', db_retrieve_agreements_data(TRUE), $fa);
 	print '</td></tr><tr><td><input type="checkbox" name="filterbydates"' . ((strlen($filter_d1) > 0)?'checked="checked"':'') . '" />';
 	if (strlen($_POST['filter_from']) > 0) $fromval = $_POST['filter_from'];
-	else if (strlen($filter_d1) > 0) $fromval=$filter_d1; else $fromval="2000-12-24"; 
+	else if (strlen($filter_d1) > 0) $fromval=$filter_d1; else $fromval="2000-12-24";
         print 'overlapping period </td><td>from (Y-M-D): <input type="date" name="filter_from" value="' . $fromval . '" />';
 	if (strlen($_POST['filter_to']) > 0) $toval = $_POST['filter_to'];
-	else if (strlen($filter_d2) > 0) $toval=$filter_d2; else $toval="2010-12-24"; 
-        print ' to (Y-M-D): <input type="date" name="filter_to" value="' . $toval . '" /></td><td>'; 
+	else if (strlen($filter_d2) > 0) $toval=$filter_d2; else $toval="2010-12-24";
+        print ' to (Y-M-D): <input type="date" name="filter_to" value="' . $toval . '" /></td><td>';
         print '<input type="submit" name="filter" value="apply filter" /></td></tr></tbody></table></form><br />';
 }
 
@@ -110,8 +110,9 @@ function format_travel_data($tsdata)
 {
 	$ftv = array();
 	foreach ($tsdata as $t)
+
 	{	
-		$rw = array($t[0], studylevel($t[1]), $t[2][1], semester($t[7], $t[17]), $t[3], $t[4], $t[5][1], $t[6][1], $t[8][1], $t[9], $t[10], YesOrNothing($t[11]), YesOrNothing($t[12]), format_files($t[13]), $t[14], $t[15], YesOrNothing($t[16]));
+		$rw = array($t[0], studylevel($t[1]), $t[2][1], semester($t[7], $t[17]), $t[3], $t[4], $t[5][1], $t[6][1], $t[8][1], $t[9], $t[10], YesOrNothing($t[11]), YesOrNothing($t[12]), format_files($t[13]), "<article>".$t[14]."</article>", $t[15], YesOrNothing($t[16]));
 		$ftv[] = $rw;
 	}
 	return $ftv;
@@ -119,7 +120,7 @@ function format_travel_data($tsdata)
 
 function studylevel($l)
 {
-	switch($l): 
+	switch($l):
 		case 1: return "Bachelor"; break;
 		case 2: return "Master"; break;
 		case 3: return "Doctoral"; break;

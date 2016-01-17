@@ -2,12 +2,38 @@
 
 function db_connect()
 {
-	$link = new mysqli('localhost','erasmus','***','erasmus');
+	$link = new mysqli('localhost','root','','erasmus');
         if ($link->connect_error)
 		die('Could not connect to database erasmus ' . $link->connect_error); 
 	return $link;
+}     
+
+function exist($table, $field, $value, $where = '')
+{
+  global $link;
+  $link = db_connect();
+  if ($value == '-')
+  {
+    return false;
+  }
+  if (empty($where))
+  {
+    $podmienka = ';';
+  }
+  else
+  {
+    $podmienka =  ' AND NOT id="' . $where . '";';
+  }
+  $sql = 'SELECT id FROM ' . $table . ' WHERE ' . $field . '="' . $value . '"' . $podmienka;
+  $query = mysqli_query($link,$sql);
+  return (boolean) mysqli_num_rows($query);
 }
 
+
+function valid_email($email)
+{
+ return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
 /*-------------- AGREEMENTS ---------------*/
 
 // builds a 2d array with data about all agreements 
@@ -237,7 +263,7 @@ function db_try_to_login($email, $passwd)
 	global $userid, $link;
 
 	$stmnt = $link->stmt_init();
-	$stmnt->prepare('SELECT ID FROM USERS WHERE EMAIL=? AND PASSWD=?');
+	$stmnt->prepare('SELECT id FROM users WHERE email=? AND passwd=? AND reg_valid = 1');
         $mail = $email;
 	$pass = md5($passwd);
 	$stmnt->bind_param('ss', $mail, $pass);

@@ -33,6 +33,7 @@ if (strlen($userid) === 0) return;
 if ($userrole === 'admin')
 {
 ?>
+[<a href="index.php?m=app_list">Application list</a>]
 [<a href="index.php?m=logs">logs</a>]
 [<a href="index.php?m=export">export</a>]
 <?PHP
@@ -47,7 +48,7 @@ if ($userrole === 'admin')
 function show_public_menu()
 {
 ?>
-[<a href="index.php?m=agreements">bilateral agreements</a>]
+[<a href="index.php?m=agreements">bilateral agreements</a>]&nbsp;[<a href="index.php?m=application">application form</a>]
 <br/><br />
 <?PHP
 }
@@ -85,7 +86,7 @@ function determine_sort_url()
   if (isset($_GET['s'])) $sort_url = '&s=' . $_GET['s'];
   else $sort_url = "";
   return $sort_url;
-} 
+}
 
 function sortby($a, $b)
 {
@@ -102,7 +103,7 @@ function show_table($column_labels, $data, $show_controls = TRUE, $print_button 
 {
 global $filter_url, $sortby, $sortreverse, $selected_year;
 
-if (isset($_GET['s'])) 
+if (isset($_GET['s']))
 {
 	$sortby = $_GET['s'];
 	if (isset($_GET['desc'])) $sortreverse = -1;
@@ -204,10 +205,10 @@ foreach ($column_labels as $label)
           print '<input type="image" src="images/recyclebin.gif" alt="delete item" title="delete item" name="' . $itemname . '" id="' . $itemname . '" />' . "\n";
           $selcnt++;
 	}
-	else $selection = $selection . ' <option value="' . $option[0] . '">' . $option[1] . "</option>\n";	
+	else $selection = $selection . ' <option value="' . $option[0] . '">' . $option[1] . "</option>\n";
     }
     if ($selcnt == 0) print "none";
-    print $selection; 
+    print $selection;
     print '</select> <input type="submit" name="AddOption" value="add" />';
     $sel++;
   }
@@ -230,7 +231,7 @@ foreach ($column_labels as $label)
   else if ($column_types[$cnt] === 'checkbox')
   {
     print '<input name="' . $cnt . '" type="checkbox"';
-    if (count($data) > 0) 
+    if (count($data) > 0)
       if ($data[$cnt] > 0) print ' checked';
     print ' />';
   }
@@ -241,7 +242,7 @@ foreach ($column_labels as $label)
 	$size = $size . $column_types[$cnt][$dptr++];
     $ctype = substr($column_types[$cnt], $dptr);
     if (count($size) === 0) $size = 30;
-	
+
     print '<input name="' . $cnt . '" type="' . $ctype . '" size="' . $size . '"';
     if (count($data) > 0) print ' value="' . $data[$cnt] . '"';
     print ' />';
@@ -295,7 +296,7 @@ function show_remove_form($formatted_records, $record_ids, $fwdvars=array())
     print '<tr><td>';
     print format_item($rec);
     print '</td></tr>';
-  } 
+  }
   print "\n</td></tr></tbody></table>";
   print '<form method="post" action="index.php?m=' . $menuitem . $sort_url . $yr . '&act' . $filter_url . '">';
   print '<input type="hidden" name="ids" value="' . $record_ids . '" />';
@@ -311,7 +312,7 @@ function show_remove_form($formatted_records, $record_ids, $fwdvars=array())
 
 function format_item($item)
 {
-  $result = ""; 
+  $result = "";
   if (is_array($item))
   {
     $result = $result . '(';
@@ -350,6 +351,8 @@ function show_headers($year_filter)
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Internal storage for Erasmus FMFI UK</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js"></script>
 <style>
 a {text-decoration: none; }
 a:link { color: #FF0000; }
@@ -359,6 +362,9 @@ a:active { color:#FF8000; }
 table,th,td { border: 1px solid black; border-collapse: collapse; }
 th, td { padding: 3px; }
 th { background-color: #EEEEEE; }
+  #tblTravels td article {
+    overflow: hidden;
+  }
 </style>
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif;">
@@ -377,12 +383,22 @@ if ($year_filter) show_year_filter(); else print '<br /><br /><br />';
 function show_footers()
 {
   global $log, $logON, $info;
-	
+
   if (strlen($info) > 0)
     print '<table><tbody><tr><td><pre>' . $info . '</pre></td></tr></tbody></table><br />' . "\n";
   if (($logON) && (strlen($log) > 0))
     print '<table><tbody><tr><td><pre>' . $log . '</pre></td></tr></tbody></table>' . "\n";
 ?>
+<script>
+$("#tblTravels>tbody>tr>td:nth-child(15)>article").each(function(item){
+  console.log(this)
+	$(this).readmore({
+    collapsedHeight: 30,
+  	moreLink: '<a href="#">More</a>',
+		lessLink: '<a href="#">Less</a>'
+  });
+});
+</script>
 </body>
 </html>
 <?PHP
