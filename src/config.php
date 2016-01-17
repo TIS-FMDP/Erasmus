@@ -5,6 +5,9 @@ $dekan = 'prof. RNDr. Jozef Masarik, DrSc.';
 setlocale(LC_COLLATE, "sk_SK");
 $first_year = 2014;
 $default_study_program = 93; //mIKV
+$DB_USER='erasmus';
+$DB_TABLE='erasmus';
+$DB_PASS='***';
 
 function study_points($i){
   switch ($i) {

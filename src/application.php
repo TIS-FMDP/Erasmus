@@ -59,7 +59,7 @@ if (strlen($pass) < 6 || strlen($pass) > 10){
     $error_log .= 'Dĺžka hesla musí byť 6 až 10 znakov!'.'<br>';  
     $error = true;     
 }
-if (exist('users', 'email', $email))
+if (exist('USERS', 'EMAIL', $email))
   {
     $error_log .= 'Zadaný email už niekto používa!'.'<br>';  
     $error = true;              
@@ -80,26 +80,26 @@ if (exist('users', 'email', $email))
 if ($error== false){
 
     // insert into students
-    $sql = 'INSERT INTO students (firstname,middlenames,lastname,born,student_id,gender,citizenship, email, year) VALUES ("' . $student_name . '", "", "'.$student_surname.'", "' . $born . '", "","' . $gender .'", "' . $citizenship .'","' . $email .'","' . $year .'");';    
+    $sql = 'INSERT INTO STUDENTS (FIRSTNAME,MIDDLENAMES,LASTNAME,BORN,STUDENT_ID,GENDER,CITIZENSHIP, EMAIL, YEAR) VALUES ("' . $student_name . '", "", "'.$student_surname.'", "' . $born . '", "","' . $gender .'", "' . $citizenship .'","' . $email .'","' . $year .'");';    
     $query1 = mysqli_query($link,$sql) or die(mysqli_error($link));
     
     //insert into users
     $student_id = mysqli_insert_id($link);
-    $sql = 'INSERT INTO users (role, email, passwd, name,student_id, reg_code,reg_valid) VALUES ("student", "' . $email . '", "' . md5($pass) . '","' . $student_name . $student_surname.'", "'. $student_id .'", "'. $code .'",0);';    
+    $sql = 'INSERT INTO USERS (ROLE, EMAIL, PASSWD, NAME,STUDENT_ID, reg_code,reg_valid) VALUES ("student", "' . $email . '", "' . md5($pass) . '","' . $student_name . $student_surname.'", "'. $student_id .'", "'. $code .'",0);';    
     $query2 = mysqli_query($link,$sql) or die(mysqli_error($link));
     
-    $sql = 'INSERT INTO student_study_programs (id_student,id_studyprogram) VALUES ("' . $student_id . '", "'. $study_program .'");';    
+    $sql = 'INSERT INTO STUDENT_STUDY_PROGRAMS (ID_STUDENT,ID_STUDYPROGRAM) VALUES ("' . $student_id . '", "'. $study_program .'");';    
     $query3 = mysqli_query($link,$sql) or die(mysqli_error($link));
     
     $id_student_program = mysqli_insert_id($link);
-    $sql = 'INSERT INTO student_exchanges (id_student_study_program,study_year,agreement_id,from_date,to_date,semester,id_language,studentlevel,requiredlevel,socialstipend,handicapped,notes,cancelled,year,state,address,phone,student_year) VALUES ("' . $id_student_program . '", "'. $study_year .'",0,1970/01/01, 1970/01/01, "'. $semester .'",0,"","","'. $soc .'","'. $ztp .'","'. $notes .'",0,"'. $year .'",0,"'. $address .'","'. $phone .'","'. $student_year .'");';    
+    $sql = 'INSERT INTO STUDENT_EXCHANGES (ID_STUDENT_STUDY_PROGRAM,STUDY_YEAR,AGREEMENT_ID,FROM_DATE,TO_DATE,SEMESTER,ID_LANGUAGE,STUDENTLEVEL,REQUIREDLEVEL,SOCIALSTIPEND,HANDICAPPED,NOTES,CANCELLED,YEAR,STATE,ADDRESS,PHONE,STUDENT_YEAR) VALUES ("' . $id_student_program . '", "'. $study_year .'",0,1970/01/01, 1970/01/01, "'. $semester .'",0,"","","'. $soc .'","'. $ztp .'","'. $notes .'",0,"'. $year .'",0,"'. $address .'","'. $phone .'","'. $student_year .'");';    
     $query4 = mysqli_query($link,$sql) or die(mysqli_error($link));
     
-    $sql = 'INSERT INTO agreements_priority (id_university, id_student, id_language, priority) VALUES ("'. $bilateral_1 .'","'. $student_id .'", "'. $lang_1 .'", 1)';
+    $sql = 'INSERT INTO AGREEMENTS_PRIORITY (ID_UNIVERSITY, ID_STUDENT, ID_LANGUAGE, PRIORITY) VALUES ("'. $bilateral_1 .'","'. $student_id .'", "'. $lang_1 .'", 1)';
     $query = mysqli_query($link,$sql) or die(mysqli_error($link));
-    $sql = 'INSERT INTO agreements_priority (id_university, id_student, id_language, priority) VALUES ("'. $bilateral_2 .'","'. $student_id .'", "'. $lang_2 .'", 2)';
+    $sql = 'INSERT INTO AGREEMENTS_PRIORITY (ID_UNIVERSITY, ID_STUDENT, ID_LANGUAGE, PRIORITY) VALUES ("'. $bilateral_2 .'","'. $student_id .'", "'. $lang_2 .'", 2)';
     $query = mysqli_query($link,$sql) or die(mysqli_error($link));
-    $sql = 'INSERT INTO agreements_priority (id_university, id_student, id_language, priority) VALUES ("'. $bilateral_3 .'","'. $student_id .'", "'. $lang_3 .'", 3)';
+    $sql = 'INSERT INTO AGREEMENTS_PRIORITY (ID_UNIVERSITY, ID_STUDENT, ID_LANGUAGE, PRIORITY) VALUES ("'. $bilateral_3 .'","'. $student_id .'", "'. $lang_3 .'", 3)';
     $query = mysqli_query($link,$sql) or die(mysqli_error($link));
     
     if($query1 && $query2 && $query3 && $query4){                                                           
@@ -184,11 +184,11 @@ echo '<html>
   <div class="col-md-4">
     <select id="selectbasic" name="citizenship" class="form-control">
     ';
-    $query = "SELECT id,name FROM countries ORDER BY name ASC;";
+    $query = "SELECT ID,NAME FROM COUNTRIES ORDER BY NAME ASC;";
     $result = mysqli_query($link,$query);
     while ($row = mysqli_fetch_array($result))
     {
-      echo "<option value='".$row['id']."'>".$row['name']."</option>";
+      echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
     }
     echo '</select>
   </div>
@@ -210,12 +210,12 @@ echo '<html>
     <select id="selectbasic" name="study_program" class="form-control">
     <option value="None">Výber študijného programu</option>
     ';
-    $query = "SELECT id, code, name  from study_programs order by name ASC;";
+    $query = "SELECT ID, CODE, NAME  from STUDY_PROGRAMS order by NAME ASC;";
     $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
     while ($row = mysqli_fetch_array($result))
     {
-      echo "<option value='".$row['id']."'>".$row['name']." - ".$row['code']."</option>";
+      echo "<option value='".$row['ID']."'>".$row['NAME']." - ".$row['CODE']."</option>";
     }
     echo '</select>
     
@@ -276,34 +276,33 @@ echo '<html>
     <select id="selectbasic" name="bilateral_1" class="form-control">
     <option value="None">Výber bilaterálnej dohody</option>
     ';
-    $query = "SELECT a.id_university,a.from_date, a.id, a.bc, a.mgr, a.phd, a.to_date, a.subject_area_id,u.id as id_university, u.name as university_name, s.name as subject_name FROM agreements as a join universities as u on a.id_university = u.id
-               join subject_areas as s on a.subject_area_id = s.id ORDER BY u.name ASC;";
+    $query = "SELECT a.ID_UNIVERSITY,a.FROM_DATE, a.ID, a.BC, a.MGR, a.PHD, a.TO_DATE, a.SUBJECT_AREA_ID,u.ID as id_university, u.NAME as university_name, s.NAME as subject_name FROM AGREEMENTS as a join UNIVERSITIES as u on a.ID_UNIVERSITY = u.ID join SUBJECT_AREAS as s on a.SUBJECT_AREA_ID = s.ID ORDER BY u.NAME ASC;";
     $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
     while ($row = mysqli_fetch_array($result))
     {
       $temp = '';
-      if($row['bc'] == 1){
+      if($row['BC'] == 1){
         $temp .= ' Bc.';
       }
-      if($row['mgr'] == 1){
+      if($row['MGR'] == 1){
         $temp .= ' Mgr.';
       }
-      if($row['phd'] == 1){
+      if($row['PHD'] == 1){
         $temp .= ' Phd.';
       }
-      echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['from_date']." - ".$row['to_date'].").$temp</option>";
+      echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['FROM_DATE']." - ".$row['TO_DATE'].").$temp</option>";
     }
     echo '</select>
     <select id="selectbasic" name="lang_1" class="form-control">
     <option value="None">Výber preferovaného jazyka</option>
     ';
-    $query = "SELECT id,name FROM languages order by name ASC;";
+    $query = "SELECT ID,NAME FROM LANGUAGES order by NAME ASC;";
     $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
     while ($row = mysqli_fetch_array($result))
     {
-      echo "<option value='".$row['id']."'>".$row['name']."</option>";
+      echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
     }
     echo '</select>
   </div>
@@ -316,34 +315,34 @@ echo '<html>
     <select id="selectbasic" name="bilateral_2" class="form-control">
     <option value="None">Výber bilaterálnej dohody</option>
     ';
-    $query = "SELECT a.id_university,a.from_date, a.id, a.bc, a.mgr, a.phd, a.to_date, a.subject_area_id,u.id as id_university, u.name as university_name, s.name as subject_name FROM agreements as a join universities as u on a.id_university = u.id
-               join subject_areas as s on a.subject_area_id = s.id ORDER BY u.name ASC;";
+    $query = "SELECT a.ID_UNIVERSITY,a.FROM_DATE, a.ID, a.BC, a.MGR, a.PHD, a.TO_DATE, a.SUBJECT_AREA_ID,u.ID as id_university, u.NAME as university_name, s.NAME as subject_name FROM AGREEMENTS as a join UNIVERSITIES as u on a.ID_UNIVERSITY = u.ID
+               join SUBJECT_AREAS as s on a.SUBJECT_AREA_ID = s.ID ORDER BY u.NAME ASC;";
     $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
     while ($row = mysqli_fetch_array($result))
     {
       $temp = '';
-      if($row['bc'] == 1){
+      if($row['BC'] == 1){
         $temp .= ' Bc.';
       }
-      if($row['mgr'] == 1){
+      if($row['MGR'] == 1){
         $temp .= ' Mgr.';
       }
-      if($row['phd'] == 1){
+      if($row['PHD'] == 1){
         $temp .= ' Phd.';
       }
-      echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['from_date']." - ".$row['to_date'].").$temp</option>";
+      echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['FROM_DATE']." - ".$row['TO_DATE'].").$temp</option>";
     }
     echo '</select>
     <select id="selectbasic" name="lang_2" class="form-control">
     <option value="None">Výber preferovaného jazyka</option>
     ';
-    $query = "SELECT id,name FROM languages order by name ASC;";
+    $query = "SELECT ID,NAME FROM LANGUAGES order by NAME ASC;";
     $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
     while ($row = mysqli_fetch_array($result))
     {
-      echo "<option value='".$row['id']."'>".$row['name']."</option>";
+      echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
     }
     echo '</select>
   </div>
@@ -356,34 +355,34 @@ echo '<html>
     <select id="selectbasic" name="bilateral_3" class="form-control">
     <option value="None">Výber bilaterálnej dohody</option>
     ';
-    $query = "SELECT a.id_university,a.from_date, a.id, a.bc, a.mgr, a.phd, a.to_date, a.subject_area_id,u.id as id_university, u.name as university_name, s.name as subject_name FROM agreements as a join universities as u on a.id_university = u.id
-               join subject_areas as s on a.subject_area_id = s.id ORDER BY u.name ASC;";
+    $query = "SELECT a.ID_UNIVERSITY,a.FROM_DATE, a.ID, a.BC, a.MGR, a.PHD, a.TO_DATE, a.SUBJECT_AREA_ID,u.ID as id_university, u.NAME as university_name, s.NAME as subject_name FROM AGREEMENTS as a join UNIVERSITIES as u on a.ID_UNIVERSITY = u.ID
+               join SUBJECT_AREAS as s on a.SUBJECT_AREA_ID = s.ID ORDER BY u.NAME ASC;";
     $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
     while ($row = mysqli_fetch_array($result))
     {
       $temp = '';
-      if($row['bc'] == 1){
+      if($row['BC'] == 1){
         $temp .= ' Bc.';
       }
-      if($row['mgr'] == 1){
+      if($row['MGR'] == 1){
         $temp .= ' Mgr.';
       }
-      if($row['phd'] == 1){
+      if($row['PHD'] == 1){
         $temp .= ' Phd.';
       }
-      echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['from_date']." - ".$row['to_date'].").$temp</option>";
+      echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['FROM_DATE']." - ".$row['TO_DATE'].").$temp</option>";
     }
     echo '</select>
     <select id="selectbasic" name="lang_3" class="form-control">
     <option value="None">Výber preferovaného jazyka</option>
     ';
-    $query = "SELECT id,name FROM languages order by name ASC;";
+    $query = "SELECT ID,NAME FROM LANGUAGES order by NAME ASC;";
     $result = mysqli_query($link,$query) or die(mysqli_error($link));
     
     while ($row = mysqli_fetch_array($result))
     {
-      echo "<option value='".$row['id']."'>".$row['name']."</option>";
+      echo "<option value='".$row['ID']."'>".$row['NAME']."</option>";
     }
     echo '</select>
   </div>

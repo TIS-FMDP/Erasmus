@@ -1,5 +1,5 @@
 <?PHP
-include 'config.php';
+include 'config-production.php';
 include 'db.php';
 include 'control_logic.php';
 include 'forms.php';

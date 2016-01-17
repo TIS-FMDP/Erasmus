@@ -1,5 +1,5 @@
 <?PHP
-include 'config.php';
+include 'config-production.php';
 include 'db.php';
 include 'forms.php';   
 include 'submissions.php';
@@ -15,10 +15,9 @@ include 'fmficredits.php';
 include 'control_logic.php';
 include 'application.php';
 include 'application_list.php';
-include 'confirm.php';
 include 'edit_form.php';
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+//error_reporting(E_ERROR | E_WARNING | E_PARSE);
 session_start();
 $link = db_connect();
 

@@ -2,7 +2,8 @@
 
 function db_connect()
 {
-	$link = new mysqli('localhost','root','','erasmus');
+	global $DB_USER, $DB_PASS, $DB_NAME;
+	$link = new mysqli('localhost',$DB_USER,$DB_PASS,$DB_NAME);
         if ($link->connect_error)
 		die('Could not connect to database erasmus ' . $link->connect_error); 
 	return $link;
@@ -22,9 +23,9 @@ function exist($table, $field, $value, $where = '')
   }
   else
   {
-    $podmienka =  ' AND NOT id="' . $where . '";';
+    $podmienka =  ' AND NOT ID="' . $where . '";';
   }
-  $sql = 'SELECT id FROM ' . $table . ' WHERE ' . $field . '="' . $value . '"' . $podmienka;
+  $sql = 'SELECT ID FROM ' . $table . ' WHERE ' . $field . '="' . $value . '"' . $podmienka;
   $query = mysqli_query($link,$sql);
   return (boolean) mysqli_num_rows($query);
 }
@@ -263,7 +264,7 @@ function db_try_to_login($email, $passwd)
 	global $userid, $link;
 
 	$stmnt = $link->stmt_init();
-	$stmnt->prepare('SELECT id FROM users WHERE email=? AND passwd=? AND reg_valid = 1');
+	$stmnt->prepare('SELECT ID FROM USERS WHERE EMAIL=? AND PASSWD=? AND reg_valid = 1');
         $mail = $email;
 	$pass = md5($passwd);
 	$stmnt->bind_param('ss', $mail, $pass);

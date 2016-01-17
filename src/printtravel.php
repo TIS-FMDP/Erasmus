@@ -1,6 +1,6 @@
 <?PHP
 error_reporting(E_WARNING);
-include 'config.php';
+include 'config-production.php';
 include 'db.php';
 include 'control_logic.php';
 include 'forms.php'; 

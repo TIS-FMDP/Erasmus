@@ -397,7 +397,7 @@ function show_year_filter()
   print '</select></form><br />' . "\n";
 }
 ?>
-</body>
+
 <?PHP
 function show_headers($year_filter)
 {

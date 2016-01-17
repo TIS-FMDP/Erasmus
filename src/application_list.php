@@ -3,8 +3,8 @@ function get_applications(){
 include 'includes/paginator.class.php';  
 $link = db_connect();
 
-$sql = 'SELECT a.id, a.semester,a.state, b.firstname, b.lastname FROM student_exchanges a INNER JOIN student_study_programs c ON a.id_student_study_program = c.id
-        INNER JOIN students b ON c.id_student = b.id'.$pagination->limit.';';    
+$sql = 'SELECT a.ID, a.SEMESTER,a.state, b.FIRSTNAME, b.LASTNAME FROM STUDENT_EXCHANGES a INNER JOIN STUDENT_STUDY_PROGRAMS c ON a.ID_STUDENT_STUDY_PROGRAM = c.ID
+        INNER JOIN STUDENTS b ON c.ID_STUDENT = b.ID'.$pagination->limit.';';    
 $query = mysqli_query($link,$sql) or die(mysqli_error($link));
 $total = mysqli_num_rows($query);
 $pagination->items_total = $total;
@@ -15,9 +15,9 @@ while ($row = mysqli_fetch_array($query))
         {
           $row_bg = ($bg) ? 'row2' : 'row1';
           $application_row .= '<tr class="' . $row_bg . '">
-	                <td>' . $row['id'] . '</td>
-                  <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-	                <td>' . $row['semester'] . '</td>
+	                <td>' . $row['ID'] . '</td>
+                  <td>' . $row['FIRSTNAME'] . ' ' . $row['LASTNAME'] . '</td>
+	                <td>' . $row['SEMESTER'] . '</td>
                   <td>' . $row['state'] . '</td>
                 </tr>';
                   $bg = !$bg;
