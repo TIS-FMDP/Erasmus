@@ -3,4 +3,10 @@
 ----------------------------
 Email: {EMAIL}
 
+<<<<<<< HEAD
 Heslo: {PASSWORD} Overovací link: erasmusfmfi.esy.es/confirm.php?c={CODE}
+=======
+Heslo: {PASSWORD}
+----------------------------Overovací link: {}
+----------------------------
+>>>>>>> 9cca8aa7de118d9934a0dec03e286c7741e5f17a
