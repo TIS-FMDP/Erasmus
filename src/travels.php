@@ -48,9 +48,11 @@ function process_travels()
                         }
                 }
         }
+        
 	$tsdata = db_travels($filter_a, $filter_d1, $filter_d2);
 	$fts = format_travel_data($tsdata);
 	show_table(array('ID', 'Level', 'Agreement', 'Semester', 'Date FROM (Y-m-d)', 'Date TO (Y-m-d)', 'Student', 'Study program', 'Language:', 'Has', 'Expected', 'Soc.stip.', 'Handicap', 'Files', 'Courses', 'Notes', 'Cancelled'), $fts, TRUE, TRUE);
+    echo "<script>$('table>tbody>tr>td:nth-child(15)>article').each(function(index){\$(this).readmore({collapsedHeight: 45, moreLink: '<a href=\"#\">More</a>',lessLink: '<a href=\"#\">Less</a>'})})</script>"; //oshitoshit
 }
 
 function print_link_travel($ts)
@@ -112,7 +114,7 @@ function format_travel_data($tsdata)
 	foreach ($tsdata as $t)
 
 	{	
-		$rw = array($t[0], studylevel($t[1]), $t[2][1], semester($t[7], $t[17]), $t[3], $t[4], $t[5][1], $t[6][1], $t[8][1], $t[9], $t[10], YesOrNothing($t[11]), YesOrNothing($t[12]), format_files($t[13]), "<article>".$t[14]."</article>", $t[15], YesOrNothing($t[16]));
+		$rw = array($t[0], studylevel($t[1]), $t[2][1], semester($t[7], $t[17]), $t[3], $t[4], $t[5][1], $t[6][1], $t[8][1], $t[9], $t[10], YesOrNothing($t[11]), YesOrNothing($t[12]), format_files($t[13]), "<article class='special'>".$t[14]."</article>", $t[15], YesOrNothing($t[16]));
 		$ftv[] = $rw;
 	}
 	return $ftv;
@@ -235,6 +237,5 @@ function upload_file_and_edit_travel()
         $tv = db_retrieve_travel_byID($id);
         addedit_travel($tv);
 }
-
 
 ?>
