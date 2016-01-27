@@ -407,9 +407,11 @@ function show_headers($year_filter)
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="moj_style.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Internal storage for Erasmus FMFI UK</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="js/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js"></script>
 
 <div class="container">
@@ -435,9 +437,6 @@ th { background-color: #EEEEEE; }
 </style>
 </head>
 
-
-
-
 <?PHP
 }
 
@@ -450,15 +449,9 @@ function show_footers()
   if (($logON) && (strlen($log) > 0))
     print '<table><tbody><tr><td><pre>' . $log . '</pre></td></tr></tbody></table>' . "\n";
 ?>
+
 <script>
-$("#tblTravels>tbody>tr>td:nth-child(15)>article").each(function(item){
-  console.log(this)
-	$(this).readmore({
-    collapsedHeight: 30,
-  	moreLink: '<a href="#">More</a>',
-		lessLink: '<a href="#">Less</a>'
-  });
-});
+
 </script>
 </body>
 </html>

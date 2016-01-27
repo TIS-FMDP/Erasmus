@@ -52,7 +52,17 @@ function process_travels()
 	$tsdata = db_travels($filter_a, $filter_d1, $filter_d2);
 	$fts = format_travel_data($tsdata);
 	show_table(array('ID', 'Level', 'Agreement', 'Semester', 'Date FROM (Y-m-d)', 'Date TO (Y-m-d)', 'Student', 'Study program', 'Language:', 'Has', 'Expected', 'Soc.stip.', 'Handicap', 'Files', 'Courses', 'Notes', 'Cancelled'), $fts, TRUE, TRUE);
-    echo "<script>$('table>tbody>tr>td:nth-child(15)>article').each(function(index){\$(this).readmore({collapsedHeight: 45, moreLink: '<a href=\"#\">More</a>',lessLink: '<a href=\"#\">Less</a>'})})</script>"; //oshitoshit
+    echo "
+    <script>
+        $('table>tbody>tr>td:nth-child(15)>article').each(
+            function(index){
+                \$(this).readmore({
+                    collapsedHeight: 45, 
+                    moreLink: '<a href=\"#\">More</a>',
+                    lessLink: '<a href=\"#\">Less</a>'
+                })
+            })
+    </script>"; //oshitoshit
 }
 
 function print_link_travel($ts)
