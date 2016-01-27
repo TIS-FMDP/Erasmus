@@ -18,7 +18,7 @@ while ($row = mysqli_fetch_array($query))
                 '<tr class="' . $row_bg . '">
 	                <td>' . $row['ID'] . '</td>
                     <td>
-                        <a href="#" class="show-btns">' . $row['FIRSTNAME'] . ' ' . $row['LASTNAME'] . '</a>
+                        <a href="#" cId="'. $row['ID'] .'" class="show-btns">' . $row['FIRSTNAME'] . ' ' . $row['LASTNAME'] . '</a>
                         <div class="btns-group">
                             <a href="?m=app_list?edit=' . $row['ID'] . '" class="green">
                                 <i class="fa fa-pencil-square-o"></i>
@@ -26,7 +26,7 @@ while ($row = mysqli_fetch_array($query))
                             <a href="?m=app_list?preview=' . $row['ID'] . '" class="blue">
                                 <i class="fa fa-search"></i>
                             </a>
-                            <a href="?m=app_list?del=' . $row['ID'] . '" class="red">
+                            <a href="#" onClick="tryDelete(' . $row['ID'] . ')" class="red">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </div>
@@ -38,6 +38,13 @@ while ($row = mysqli_fetch_array($query))
         }
 ?>
 <script>
+function tryDelete(id) {
+    var del = confirm("Are you sure to delete '" + id + "' ?");
+    if (del) {
+        window.location.replace("?m=app_list?del=" + id);
+    }
+}    
+
 $(document).ready(function(){
     $('.show-btns').click(function(event) {
         event.preventDefault();
@@ -45,6 +52,7 @@ $(document).ready(function(){
     });
     $('.show-btns').dblclick(function(event) {
         event.preventDefault();
+        window.location.replace("?m=app_list?edit=" + $(this).attr('cId'));
         console.log('FUCK');
     });    
 });
