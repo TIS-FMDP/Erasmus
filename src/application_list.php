@@ -7,7 +7,7 @@ include 'includes/paginator.class.php';
 $link = db_connect();
 
 $sql = 'SELECT a.ID, a.SEMESTER,a.state, b.FIRSTNAME, b.LASTNAME FROM STUDENT_EXCHANGES a INNER JOIN STUDENT_STUDY_PROGRAMS c ON a.ID_STUDENT_STUDY_PROGRAM = c.ID
-        INNER JOIN STUDENTS b ON c.ID_STUDENT = b.ID'.$pagination->limit.';';    
+        INNER JOIN STUDENTS b ON c.ID_STUDENT = b.ID'.$pagination->limit.' ORDER BY ID DESC;';    
 $query = mysqli_query($link,$sql) or die(mysqli_error($link));
 $total = mysqli_num_rows($query);
 $pagination->items_total = $total;

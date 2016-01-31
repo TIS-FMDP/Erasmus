@@ -29,6 +29,16 @@ global $userid, $userrole;
 <a type="button" class="btn btn-default" href="index.php?m=logout">Logout</button></a>
 
 <?PHP
+if ($userrole === 'student')
+{
+?>
+<a type="button" class="btn btn-default" href="index.php?m=app_list">Preview</button></a>
+<a type="button" class="btn btn-default" href="index.php?m=logs">Edit</button></a>
+<a type="button" class="btn btn-default" href="index.php?m=export">Print</button></a>
+
+
+<?PHP
+}
 if ($userrole === 'admin')
 {
 ?>
