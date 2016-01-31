@@ -4,6 +4,7 @@ function db_connect()
 {
 	global $DB_USER, $DB_PASS, $DB_NAME;
 	$link = new mysqli('localhost',$DB_USER,$DB_PASS,$DB_NAME);
+    mysqli_set_charset($con,"utf8");
         if ($link->connect_error)
 		die('Could not connect to database erasmus ' . $link->connect_error); 
 	return $link;
@@ -11,8 +12,9 @@ function db_connect()
 
 function exist($table, $field, $value, $where = '')
 {
-  global $link;
+  global $link; mysqli_set_charset($link,"utf8");
   $link = db_connect();
+  mysqli_set_charset($link,"utf8");
   if ($value == '-')
   {
     return false;
@@ -40,7 +42,8 @@ function valid_email($email)
 // builds a 2d array with data about all agreements 
 function db_retrieve_agreements_data($as_selection=FALSE)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$zm = array();
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT AGREEMENTS.ID, UNIVERSITIES.ID, UNIVERSITIES.NAME, UNIVERSITIES.CODE, COUNTRIES.NAME, CONTACT_PERSON, SUBJECT_AREAS.CODE, SUBJECT_AREAS.NAME, FROM_DATE, TO_DATE, BC, MGR, PHD, TOTAL_NUMBER, SUBJECT_AREAS.ID FROM AGREEMENTS JOIN UNIVERSITIES ON UNIVERSITIES.ID=AGREEMENTS.ID_UNIVERSITY JOIN COUNTRIES ON COUNTRIES.ID=UNIVERSITIES.ID_COUNTRY JOIN SUBJECT_AREAS ON SUBJECT_AREAS.ID=AGREEMENTS.SUBJECT_AREA_ID ORDER BY UNIVERSITIES.CODE,TO_DATE');
@@ -64,7 +67,8 @@ function db_retrieve_agreements_data($as_selection=FALSE)
 
 function db_retrieve_agreement_byID($id)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT AGREEMENTS.ID, UNIVERSITIES.ID, UNIVERSITIES.NAME, UNIVERSITIES.CODE, COUNTRIES.NAME, FROM_DATE, TO_DATE, SUBJECT_AREA_ID, CONTACT_PERSON, BC, MGR, PHD, TOTAL_NUMBER FROM AGREEMENTS JOIN UNIVERSITIES ON UNIVERSITIES.ID=AGREEMENTS.ID_UNIVERSITY JOIN COUNTRIES ON COUNTRIES.ID=UNIVERSITIES.ID_COUNTRY WHERE (AGREEMENTS.ID=?)');
 	$stmnt->bind_param('i', $id);
@@ -80,7 +84,8 @@ function db_retrieve_agreement_byID($id)
 
 function db_save_agreement($id, $uniID, $validFROM, $validTO, $subjareaID, $coord, $bsc, $mgr, $phd, $totalnum)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -111,7 +116,8 @@ function db_save_agreement($id, $uniID, $validFROM, $validTO, $subjareaID, $coor
 
 function db_remove_agreements_cascading($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm2 = $link->stmt_init();
 	$stm2->prepare('DELETE FROM AGREEMENTS WHERE ID=?');
@@ -128,7 +134,8 @@ function db_remove_agreements_cascading($ids)
 
 function db_get_first_agreement()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$link = db_connect();
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID FROM AGREEMENTS LIMIT 1');
@@ -142,7 +149,8 @@ function db_get_first_agreement()
 /*---------------------SUBJECT_AREAS-----------------------*/
 function db_get_first_subject_area()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$link = db_connect();
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID FROM SUBJECT_AREAS LIMIT 1');
@@ -155,7 +163,8 @@ function db_get_first_subject_area()
 
 function db_subject_areas($as_selection = FALSE)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT ID, CODE, NAME FROM SUBJECT_AREAS ORDER BY CODE');
 	$stmnt->execute();
@@ -170,7 +179,8 @@ function db_subject_areas($as_selection = FALSE)
 
 function db_save_subject_area($id, $code, $name)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -202,7 +212,8 @@ function db_save_subject_area($id, $code, $name)
 
 function db_remove_subject_area($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM SUBJECT_AREAS WHERE ID=?');
@@ -219,7 +230,8 @@ function db_remove_subject_area($ids)
 /*---------------------COUNTRIES-----------------------*/
 function db_get_first_country()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
+    mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID, NAME FROM COUNTRIES LIMIT 1');
 	$stm->execute();
@@ -232,6 +244,7 @@ function db_get_first_country()
 function db_countries()
 {
 	global $link;
+    mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT ID, NAME FROM COUNTRIES ORDER BY NAME');
 	$stmnt->execute();
@@ -248,7 +261,7 @@ function db_countries()
 function db_users_load()
 {
 	global $userid, $userrole, $useremail, $username, $link;
-
+    mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT ROLE, EMAIL, NAME FROM USERS WHERE ID=?');
 	$stmnt->bind_param('i', $userid);
@@ -261,7 +274,7 @@ function db_users_load()
 //verifies user credentials against database
 function db_try_to_login($email, $passwd)
 {
-	global $userid, $link;
+	global $userid, $link; mysqli_set_charset($link,"utf8");
 
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT ID FROM USERS WHERE EMAIL=? AND PASSWD=? AND reg_valid = 1');
@@ -278,7 +291,7 @@ function db_try_to_login($email, $passwd)
 /*-------------------UNIVERSITIES--------------------*/
 function db_universities_with_or_without($with)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	if ($with)
 		$stmnt->prepare('SELECT UNIVERSITIES.ID, UNIVERSITIES.NAME, COUNTRIES.NAME, UNIVERSITIES.CODE FROM UNIVERSITIES, COUNTRIES WHERE COUNTRIES.ID=UNIVERSITIES.ID_COUNTRY ORDER BY UNIVERSITIES.NAME');
@@ -306,7 +319,7 @@ function db_universities_without_countries()
 
 function db_remove_university($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM UNIVERSITIES WHERE ID=?');
@@ -321,7 +334,7 @@ function db_remove_university($ids)
 
 function db_save_university($id, $uniName, $cntry, $uniCode)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -353,7 +366,7 @@ function db_save_university($id, $uniName, $cntry, $uniCode)
 /*------------------STUDYPROGRAMS-------------------------*/
 function db_study_programs($as_selection = FALSE)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT ID, CODE, NAME FROM STUDY_PROGRAMS ORDER BY CODE');
 	$stmnt->execute();
@@ -368,7 +381,7 @@ function db_study_programs($as_selection = FALSE)
 
 function db_remove_study_programs($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM STUDY_PROGRAMS WHERE ID=?');
@@ -383,7 +396,7 @@ function db_remove_study_programs($ids)
 
 function db_save_study_program($id, $code, $name)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -415,7 +428,7 @@ function db_save_study_program($id, $code, $name)
 
 function db_list_study_programs_for_student($id)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT STUDY_PROGRAMS.ID, STUDY_PROGRAMS.CODE, STUDY_PROGRAMS.NAME FROM STUDY_PROGRAMS, STUDENT_STUDY_PROGRAMS WHERE (STUDENT_STUDY_PROGRAMS.ID_STUDYPROGRAM=STUDY_PROGRAMS.ID) AND (STUDENT_STUDY_PROGRAMS.ID_STUDENT=?) ORDER BY STUDY_PROGRAMS.CODE');
 	$stm->bind_param('i', $id);
@@ -431,7 +444,7 @@ function db_list_study_programs_for_student($id)
 /*------------------FMFI COURSES-------------------------*/
 function db_fmfi_courses($as_selection=FALSE)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT ID, FMFI_COURSE_CODE, FMFI_COURSE_NAME, CREDITS FROM FMFI_COURSES ORDER BY FMFI_COURSE_CODE');
 	$stmnt->execute();
@@ -447,7 +460,7 @@ function db_fmfi_courses($as_selection=FALSE)
 
 function db_retrieve_fmfi_course_byID($id)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT FMFI_COURSE_CODE, FMFI_COURSE_NAME, CREDITS FROM FMFI_COURSES WHERE ID=?');
 	$stmnt->bind_param('i', $id);
@@ -461,7 +474,7 @@ function db_retrieve_fmfi_course_byID($id)
 
 function db_remove_fmfi_courses($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM FMFI_COURSES WHERE ID=?');
@@ -476,7 +489,7 @@ function db_remove_fmfi_courses($ids)
 
 function db_save_fmfi_course($id, $code, $name, $credits)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -507,7 +520,7 @@ function db_save_fmfi_course($id, $code, $name, $credits)
 
 function db_get_first_fmfi()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID FROM FMFI_COURSES LIMIT 1');
 	$stm->execute();
@@ -520,7 +533,7 @@ function db_get_first_fmfi()
 /*------------------STUDENTS-------------------------*/
 function db_get_first_student()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID FROM STUDENTS LIMIT 1');
 	$stm->execute();
@@ -565,7 +578,7 @@ function db_students($as_selection=FALSE)
 
 function db_remove_students_cascading($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm = $link->stmt_init();
 	$stm2 = $link->stmt_init();
@@ -591,7 +604,7 @@ function db_remove_students_cascading($ids)
 
 function db_save_student($id, $firstname, $middlename, $lastname, $born, $studentID, $gender, $citiz, $email, $year)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -622,7 +635,7 @@ function db_save_student($id, $firstname, $middlename, $lastname, $born, $studen
 
 function db_retrieve_student_byID($id)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT FIRSTNAME, MIDDLENAMES, LASTNAME, BORN, STUDENT_ID, GENDER, CITIZENSHIP, EMAIL, YEAR FROM STUDENTS WHERE ID=?');
 	$stmnt->bind_param('i', $id);
@@ -638,7 +651,7 @@ function db_retrieve_student_byID($id)
 
 function db_add_study_program_to_student($stid, $spid)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('INSERT INTO STUDENT_STUDY_PROGRAMS SET ID_STUDENT=?, ID_STUDYPROGRAM=?');
 	$stm->bind_param('ii', $stid, $spid);
@@ -650,7 +663,7 @@ function db_add_study_program_to_student($stid, $spid)
 
 function db_retrieve_study_prog_and_student_details($spid, $stid)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT STUDY_PROGRAMS.CODE, STUDY_PROGRAMS.NAME, STUDENTS.FIRSTNAME, STUDENTS.MIDDLENAMES, STUDENTS.LASTNAME FROM STUDENTS JOIN STUDENT_STUDY_PROGRAMS ON STUDENTS.ID = STUDENT_STUDY_PROGRAMS.ID_STUDENT JOIN STUDY_PROGRAMS ON STUDY_PROGRAMS.ID = STUDENT_STUDY_PROGRAMS.ID_STUDYPROGRAM WHERE (STUDENTS.ID=?) AND (STUDY_PROGRAMS.ID=?)');
 	$stm->bind_param('ii', $stid, $spid);
@@ -663,7 +676,7 @@ function db_retrieve_study_prog_and_student_details($spid, $stid)
 
 function db_remove_student_program_of_student($spid, $stid)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM STUDENT_STUDY_PROGRAMS WHERE (ID_STUDENT=?) AND (ID_STUDYPROGRAM=?)');
 	$stm->bind_param('ii', $stid, $spid);
@@ -674,7 +687,7 @@ function db_remove_student_program_of_student($spid, $stid)
 
 function db_retrieve_or_insert_student_study_program($stid, $spid)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID FROM STUDENT_STUDY_PROGRAMS WHERE (ID_STUDENT=?) AND (ID_STUDYPROGRAM=?)');
 	$stm->bind_param('ii', $stid, $spid);
@@ -699,7 +712,7 @@ function db_retrieve_or_insert_student_study_program($stid, $spid)
 
 function db_save_travel($id, $year, $agid, $datefrom, $dateto, $stid, $spid, $semester, $lang, $lhas, $lexp, $socs, $hcap, $notes, $cancelled, $acyear)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stspid = db_retrieve_or_insert_student_study_program($stid, $spid);
 	$stm = $link->stmt_init();
 	$op = 0;
@@ -736,7 +749,7 @@ function db_save_travel($id, $year, $agid, $datefrom, $dateto, $stid, $spid, $se
 
 function db_remove_travel_cascading($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm2 = $link->stmt_init();
 	$stm2->prepare('DELETE FROM STUDENT_EXCHANGES WHERE ID=?');
@@ -823,7 +836,7 @@ function db_travels($filter_a=NULL, $filter_d1=NULL, $filter_d2=NULL)
 
 function db_languages()
 {
-        global $link;
+        global $link; mysqli_set_charset($link,"utf8");
         $stmnt = $link->stmt_init();
         $stmnt->prepare('SELECT ID, NAME FROM LANGUAGES ORDER BY NAME');
         $stmnt->execute();
@@ -837,7 +850,7 @@ function db_languages()
 
 function db_travels_list()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT STUDENT_EXCHANGES.ID, UNIVERSITIES.NAME, COUNTRIES.NAME, STUDENT_EXCHANGES.FROM_DATE, STUDENT_EXCHANGES.TO_DATE, STUDENTS.FIRSTNAME, STUDENTS.MIDDLENAMES, STUDENTS.LASTNAME, STUDY_PROGRAMS.CODE FROM STUDENT_EXCHANGES JOIN STUDENT_STUDY_PROGRAMS ON STUDENT_STUDY_PROGRAMS.ID=STUDENT_EXCHANGES.ID_STUDENT_STUDY_PROGRAM JOIN STUDENTS ON STUDENTS.ID=STUDENT_STUDY_PROGRAMS.ID_STUDENT JOIN AGREEMENTS ON AGREEMENTS.ID=STUDENT_EXCHANGES.AGREEMENT_ID JOIN UNIVERSITIES ON UNIVERSITIES.ID=AGREEMENTS.ID_UNIVERSITY JOIN COUNTRIES ON COUNTRIES.ID=UNIVERSITIES.ID_COUNTRY LEFT JOIN STUDY_PROGRAMS ON STUDY_PROGRAMS.ID=STUDENT_STUDY_PROGRAMS.ID_STUDYPROGRAM ORDER BY STUDENTS.LASTNAME, STUDENTS.FIRSTNAME');
 	$stmnt->execute();
@@ -854,7 +867,7 @@ function db_travels_list()
 
 function db_travel_item_formatted($tvid)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT STUDENT_EXCHANGES.ID, UNIVERSITIES.NAME, COUNTRIES.NAME, STUDENT_EXCHANGES.FROM_DATE, STUDENT_EXCHANGES.TO_DATE, STUDENTS.FIRSTNAME, STUDENTS.MIDDLENAMES, STUDENTS.LASTNAME, STUDY_PROGRAMS.CODE FROM STUDENT_EXCHANGES JOIN STUDENT_STUDY_PROGRAMS ON STUDENT_STUDY_PROGRAMS.ID=STUDENT_EXCHANGES.ID_STUDENT_STUDY_PROGRAM JOIN STUDENTS ON STUDENTS.ID=STUDENT_STUDY_PROGRAMS.ID_STUDENT JOIN AGREEMENTS ON AGREEMENTS.ID=STUDENT_EXCHANGES.AGREEMENT_ID JOIN UNIVERSITIES ON UNIVERSITIES.ID=AGREEMENTS.ID_UNIVERSITY JOIN COUNTRIES ON COUNTRIES.ID=UNIVERSITIES.ID_COUNTRY LEFT JOIN STUDY_PROGRAMS ON STUDY_PROGRAMS.ID=STUDENT_STUDY_PROGRAMS.ID_STUDYPROGRAM WHERE STUDENT_EXCHANGES.ID=?');
 	$stmnt->bind_param('i', $tvid);
@@ -868,7 +881,7 @@ function db_travel_item_formatted($tvid)
 
 function db_retrieve_travel_byID($tvid, $as_array=FALSE)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT STUDY_YEAR, AGREEMENT_ID, FROM_DATE, TO_DATE, SEMESTER, STUDENT_STUDY_PROGRAMS.ID_STUDENT, STUDENT_STUDY_PROGRAMS.ID_STUDYPROGRAM, ID_LANGUAGE, STUDENTLEVEL, REQUIREDLEVEL, SOCIALSTIPEND, HANDICAPPED, NOTES, CANCELLED, STUDENT_EXCHANGES.YEAR FROM STUDENT_EXCHANGES JOIN STUDENT_STUDY_PROGRAMS ON STUDENT_STUDY_PROGRAMS.ID=STUDENT_EXCHANGES.ID_STUDENT_STUDY_PROGRAM WHERE STUDENT_EXCHANGES.ID=?');
 	$stmnt->bind_param('i', $tvid);
@@ -891,7 +904,7 @@ function db_retrieve_travel_byID($tvid, $as_array=FALSE)
 
 function db_get_first_travel()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID FROM STUDENT_EXCHANGES LIMIT 1');
 	$stm->execute();
@@ -905,7 +918,7 @@ function db_get_first_travel()
 
 function db_foreign_courses_for_an_exchange($idtv, $as_array=FALSE)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT ID, CODE, NAME, CREDITS, GRADE, COURSE_TYPE FROM STUDENT_FOREIGN_SUBJECTS WHERE STUDENT_FOREIGN_SUBJECTS.ID_EXCHANGE=?');
 	$stmnt->bind_param('i', $idtv);
@@ -943,7 +956,7 @@ function course_type_sk($code)
 
 function db_save_travel_course($id, $tvid, $code, $name, $credits, $grade, $ctype)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -974,7 +987,7 @@ function db_save_travel_course($id, $tvid, $code, $name, $credits, $grade, $ctyp
 
 function db_remove_travel_courses($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM STUDENT_FOREIGN_SUBJECTS WHERE ID=?');
@@ -990,7 +1003,7 @@ function db_remove_travel_courses($ids)
 /*----------------------TRAVEL FMFI COURSES------------------------*/
 function db_remove_fmfi_travel_courses($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$idar = explode(', ', $ids);
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM STUDENT_FMFI_SUBJECTS WHERE ID=?');
@@ -1005,7 +1018,7 @@ function db_remove_fmfi_travel_courses($ids)
 
 function db_fmfi_courses_for_an_exchange($idtv, $as_array=FALSE)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stmnt = $link->stmt_init();
 	$stmnt->prepare('SELECT STUDENT_FMFI_SUBJECTS.ID, FMFI_COURSES.FMFI_COURSE_CODE, FMFI_COURSES.FMFI_COURSE_NAME, FMFI_COURSES.CREDITS, FMFI_COURSES.ID, STUDENT_FMFI_SUBJECTS.GRADE FROM STUDENT_FMFI_SUBJECTS JOIN FMFI_COURSES ON FMFI_COURSES.ID=STUDENT_FMFI_SUBJECTS.ID_FMFI_COURSE WHERE STUDENT_FMFI_SUBJECTS.ID_EXCHANGE=? ORDER BY FMFI_COURSES.FMFI_COURSE_CODE');
 	$stmnt->bind_param('i', $idtv);
@@ -1025,7 +1038,7 @@ function db_fmfi_courses_for_an_exchange($idtv, $as_array=FALSE)
 
 function db_save_fmfi_travel_course($id, $idtv, $idfmfi, $grade)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$op = 0;
 	if ($id == '-') $op = 1;
@@ -1072,7 +1085,7 @@ function db_append_to_log($tabName, $idrec, $opname, $desc, $newval)
 
 function db_retrieve_logs()
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT RECORDED, IP, USERS.NAME, ID_USER, ID_TAB, ID_RECORD, OPERATION, DESCRIPTION, NEWVAL FROM LOG, USERS WHERE USERS.ID=ID_USER ORDER BY RECORDED DESC');
 	$stm->execute();
@@ -1121,7 +1134,7 @@ function getRealUserIp()
 /*----------------- FILES ----------------------- */
 function db_list_files($tab, $record)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm2 = $link->stmt_init();
 	logmsg("tab: " . $tab);
 	$stm2->prepare('SELECT ID, ORIGINAL_FILE_NAME, DESCRIPTION FROM FILES WHERE (ID_TAB=?) AND (ID_RECORD=?)');
@@ -1137,7 +1150,7 @@ function db_list_files($tab, $record)
 
 function db_retrieve_file_details($fileid)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ID_TAB, ID_RECORD, ORIGINAL_FILE_NAME, DESCRIPTION FROM FILES WHERE ID=?');
 	$stm->bind_param('i', $fileid);
@@ -1151,7 +1164,7 @@ function db_retrieve_file_details($fileid)
 
 function db_retrieve_file_ids($idtab, $idrecs)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
         $stm = $link->stmt_init();
         $stm->prepare('SELECT ID FROM FILES WHERE ID_TAB=? AND ID_RECORD=?');
         $fids = array();
@@ -1169,7 +1182,7 @@ function db_retrieve_file_ids($idtab, $idrecs)
 
 function db_delete_files($ids)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('DELETE FROM FILES WHERE ID=?');
 	foreach($ids as $id)
@@ -1185,7 +1198,7 @@ function db_delete_files($ids)
 
 function db_insert_uploaded_file($tab, $idrecord, $filename, $description)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('INSERT INTO FILES (ID_TAB, ID_RECORD, ORIGINAL_FILE_NAME, DESCRIPTION) VALUES (?, ?, ?, ?)');
 	$stm->bind_param('iiss', $tab, $idrecord, $filename, $description);
@@ -1197,7 +1210,7 @@ function db_insert_uploaded_file($tab, $idrecord, $filename, $description)
 
 function db_file_for_download($id)
 {
-	global $link;
+	global $link; mysqli_set_charset($link,"utf8");
 	$stm = $link->stmt_init();
 	$stm->prepare('SELECT ORIGINAL_FILE_NAME, PUBLIC FROM FILES WHERE ID=?');
 	$stm->bind_param('i', $id);
