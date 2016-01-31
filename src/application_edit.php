@@ -146,6 +146,7 @@ echo '<meta http-equiv="refresh" content="0"';
 <!-- Latest compiled and minified CSS -->
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="moj_style.css">
 <form class="form-horizontal" name="application" method="post" enctype="multipart/form-data">
 <fieldset>
 <!-- Form Name -->
