@@ -1,6 +1,9 @@
 <?PHP
 function process_study_programs()
 {
+    global $userrole;
+    if ($userrole === "admin") {
+        
 	print '<b>Study Programs</b><br /><br />';
 	if (isset($_GET['act']))
         {
@@ -23,6 +26,8 @@ function process_study_programs()
         }
 	$spdata = db_study_programs();
 	show_table(array('ID', 'Study program CODE', 'Study program NAME'), $spdata);
+    }
+    else{return;}
 }
 
 function edit_study_program($sps)

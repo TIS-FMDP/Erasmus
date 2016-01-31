@@ -129,6 +129,7 @@ echo '<html>
 <!-- Latest compiled and minified CSS -->
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="moj_style.css">
 <form class="form-horizontal" name="application" method="post">
 <fieldset>
 <!-- Form Name -->
@@ -136,43 +137,41 @@ echo '<html>
 '.$error_log.'
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Meno</label>  
+  <label class="col-md-4 control-label" for="nameinput">Meno</label>  
   <div class="col-md-4">
-  <input id="textinput" name="student_name" type="text" placeholder="" class="form-control input-md" required="">
-    
+  <input id="nameinput" name="student_name" type="text" value="'.$_POST['student_name'].'" placeholder="" class="form-control input-md" required=""> 
   </div>
 </div>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Priezvisko</label>  
+  <label class="col-md-4 control-label" for="secnameinput">Priezvisko</label>  
   <div class="col-md-4">
-  <input id="textinput" name="student_surname" type="text" placeholder="" class="form-control input-md" required="">
-    
+  <input id="secnameinput" name="student_surname" type="text" value="'.$_POST['student_surname'].'" placeholder="" class="form-control input-md" required="">
   </div>
 </div>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Kontaktná adresa</label>  
+  <label class="col-md-4 control-label" for="adressinput">Kontaktná adresa</label>  
   <div class="col-md-4">
-  <input id="textinput" name="address" type="text" placeholder="" class="form-control input-md" required=""> 
+  <input id="adressinput" name="address" type="text" value="'.$_POST['address'].'" placeholder="" class="form-control input-md" required=""> 
   </div>
 </div>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Telefónne číslo</label>  
+  <label class="col-md-4 control-label" for="numberinput">Telefónne číslo</label>  
   <div class="col-md-4">
-  <input id="textinput" name="phone" type="text" placeholder="" class="form-control input-md" required="">
+  <input id="numberinput" name="phone" type="text" value="'.$_POST['phone'].'" placeholder="" class="form-control input-md" required="">
   </div>
 </div>
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Pohlavie</label>
+  <label class="col-md-4 control-label" for="genderselect">Pohlavie</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="gender" class="form-control">
+    <select id="genderselect" name="gender" value="'.$_POST['gender'].'" class="form-control">
     <option value="F">žena</option>
     <option value="M">muž</option>
     </select>
@@ -180,9 +179,9 @@ echo '<html>
 </div>
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Príslušnosť</label>
+  <label class="col-md-4 control-label" for="citizenselect">Príslušnosť</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="citizenship" class="form-control">
+    <select id="citizenselect" name="citizenship" value="'.$_POST['citizenship'].'" class="form-control">
     ';
     $query = "SELECT ID,NAME FROM COUNTRIES ORDER BY NAME ASC;";
     $result = mysqli_query($link,$query);
@@ -196,18 +195,18 @@ echo '<html>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Dátum narodenia</label>  
+  <label class="col-md-4 control-label" for="dateinput">Dátum narodenia</label>  
   <div class="col-md-4">
-  <input id="textinput" name="birthdate" type="text" placeholder="dd.mm.yyyy" class="form-control input-md" required="">
+  <input id="dateinput" name="birthdate" value="'.$_POST['birthdate'].'" type="text" placeholder="dd.mm.yyyy" class="form-control input-md" required="">
     
   </div>
 </div>
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Aktuálny študijný program</label>
+  <label class="col-md-4 control-label" for="programselect">Aktuálny študijný program</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="study_program" class="form-control">
+    <select id="programselect" name="study_program" value="'.$_POST['study_program'].'" class="form-control">
     <option value="None">Výber študijného programu</option>
     ';
     $query = "SELECT ID, CODE, NAME  from STUDY_PROGRAMS order by NAME ASC;";
@@ -224,28 +223,31 @@ echo '<html>
 
 <!-- Multiple Radios -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="radios">Výber semestra</label>
+  <label class="col-md-4 control-label" for="semesterradio">Výber semestra</label>
   <div class="col-md-4">
   <div class="radio">
     <label for="radios-0">
-      <input type="radio" name="semester" id="radios-0" value="W" checked="checked">
+      <input type="radio" name="semester" value="'.$_POST['semester'].'" id="radios-0" value="W" checked="checked">
       Zimný
     </label>
 	</div>
   <div class="radio">
     <label for="radios-1">
-      <input type="radio" name="semester" id="radios-1" value="S">
+      <input type="radio" name="semester" value="'.$_POST['semester'].'" id="radios-1" value="S">
       Letný
     </label>
 	</div>
+
   </div>
+    <p>Vyber si semester v ktorom ideš na Erazmus.
 </div>
+
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Stupeň štúdia</label>
+  <label class="col-md-4 control-label" for="degreeselect">Stupeň štúdia</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="study_year" class="form-control">
+    <select id="degreeselect" name="study_year" value="'.$_POST['study_year'].'" class="form-control">
     <option value="None">Výber stupňa štúdia</option>         
     <option value="1">Bc.</option>
     <option value="2">Mgr.</option>
@@ -253,11 +255,12 @@ echo '<html>
     </select>
     
   </div>
+  <p>Vyber si stupeň v ktorom ideš na Erazmus.
 </div>
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Rok štúdia</label>
+  <label class="col-md-4 control-label" for="yearselect">Ročník</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="student_year" class="form-control">
+    <select id="yearselect" name="student_year" value="'.$_POST['student_year'].'" class="form-control">
     <option value="None">Výber roka štúdia</option>         
     <option value="1">1.</option>
     <option value="2">2.</option>
@@ -267,13 +270,14 @@ echo '<html>
     </select>
     
   </div>
+  <p>Vyber si ročník v ktorom ideš na Erazmus.
 </div>
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Výber bilaterálnej dohody #1</label>
+  <label class="col-md-4 control-label" for="agreementselect">Výber bilaterálnej dohody #1</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="bilateral_1" class="form-control">
+    <select id="agreementselect" name="bilateral_1" value="'.$_POST['bilateral_1'].'" class="form-control">
     <option value="None">Výber bilaterálnej dohody</option>
     ';
     $query = "SELECT a.ID_UNIVERSITY,a.FROM_DATE, a.ID, a.BC, a.MGR, a.PHD, a.TO_DATE, a.SUBJECT_AREA_ID,u.ID as id_university, u.NAME as university_name, s.NAME as subject_name FROM AGREEMENTS as a join UNIVERSITIES as u on a.ID_UNIVERSITY = u.ID join SUBJECT_AREAS as s on a.SUBJECT_AREA_ID = s.ID ORDER BY u.NAME ASC;";
@@ -294,7 +298,7 @@ echo '<html>
       echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['FROM_DATE']." - ".$row['TO_DATE'].").$temp</option>";
     }
     echo '</select>
-    <select id="selectbasic" name="lang_1" class="form-control">
+    <select id="selectbasic" name="lang_1" value="'.$_POST['lang_1'].'" class="form-control">
     <option value="None">Výber preferovaného jazyka</option>
     ';
     $query = "SELECT ID,NAME FROM LANGUAGES order by NAME ASC;";
@@ -310,9 +314,9 @@ echo '<html>
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Výber bilaterálnej dohody #2</label>
+  <label class="col-md-4 control-label" for="agreementselect2">Výber bilaterálnej dohody #2</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="bilateral_2" class="form-control">
+    <select id="agreementselect2" name="bilateral_2" value="'.$_POST['bilateral_2'].'" class="form-control">
     <option value="None">Výber bilaterálnej dohody</option>
     ';
     $query = "SELECT a.ID_UNIVERSITY,a.FROM_DATE, a.ID, a.BC, a.MGR, a.PHD, a.TO_DATE, a.SUBJECT_AREA_ID,u.ID as id_university, u.NAME as university_name, s.NAME as subject_name FROM AGREEMENTS as a join UNIVERSITIES as u on a.ID_UNIVERSITY = u.ID
@@ -334,7 +338,7 @@ echo '<html>
       echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['FROM_DATE']." - ".$row['TO_DATE'].").$temp</option>";
     }
     echo '</select>
-    <select id="selectbasic" name="lang_2" class="form-control">
+    <select id="selectbasic" name="lang_2" value="'.$_POST['lang_2'].'" class="form-control">
     <option value="None">Výber preferovaného jazyka</option>
     ';
     $query = "SELECT ID,NAME FROM LANGUAGES order by NAME ASC;";
@@ -350,9 +354,9 @@ echo '<html>
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Výber bilaterálnej dohody #3</label>
+  <label class="col-md-4 control-label" for="agreementselect3">Výber bilaterálnej dohody #3</label>
   <div class="col-md-4">
-    <select id="selectbasic" name="bilateral_3" class="form-control">
+    <select id="agreementselect3" name="bilateral_3" value="'.$_POST['bilateral_3'].'" class="form-control">
     <option value="None">Výber bilaterálnej dohody</option>
     ';
     $query = "SELECT a.ID_UNIVERSITY,a.FROM_DATE, a.ID, a.BC, a.MGR, a.PHD, a.TO_DATE, a.SUBJECT_AREA_ID,u.ID as id_university, u.NAME as university_name, s.NAME as subject_name FROM AGREEMENTS as a join UNIVERSITIES as u on a.ID_UNIVERSITY = u.ID
@@ -374,7 +378,7 @@ echo '<html>
       echo "<option value='".$row['id_university']."'>".$row['university_name']." - ".$row['subject_name']." (".$row['FROM_DATE']." - ".$row['TO_DATE'].").$temp</option>";
     }
     echo '</select>
-    <select id="selectbasic" name="lang_3" class="form-control">
+    <select id="selectbasic" name="lang_3" value="'.$_POST['lang_3'].'" class="form-control">
     <option value="None">Výber preferovaného jazyka</option>
     ';
     $query = "SELECT ID,NAME FROM LANGUAGES order by NAME ASC;";
@@ -390,50 +394,50 @@ echo '<html>
 
 <!-- Textarea -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textarea">Účasť na projektoch/iné aktivity</label>
+  <label class="col-md-4 control-label" for="activity">Účasť na projektoch/iné aktivity</label>
   <div class="col-md-4">                     
-    <textarea class="form-control" id="textarea" name="notes"></textarea>
+    <textarea class="form-control" id="activity" name="notes" value="'.$_POST['notes'].'"></textarea>
   </div>
 </div>
 <!-- File Button --> 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="filebutton">Motivačný list</label>
+  <label class="col-md-4 control-label" >Motivačný list</label>
   <div class="col-md-4">
-    <input id="filebutton" name="motivacny_list" class="input-file" type="file">
+    <input id="filebutton1" name="motivacny_list" value="'.$_POST['motivacny_list'].'" class="input-file" type="file">
   </div>
 </div>
 <!-- File Button --> 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="filebutton">Životopis</label>
+  <label class="col-md-4 control-label" >Životopis</label>
   <div class="col-md-4">
-    <input id="filebutton" name="zivotopis" class="input-file" type="file">
+    <input id="filebutton2" name="zivotopis" value="'.$_POST['zivotopis'].'" class="input-file" type="file">
   </div>
 </div>
 <!-- File Button --> 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="filebutton">Voliteľné</label>
+  <label class="col-md-4 control-label" >Voliteľné</label>
   <div class="col-md-4">
-    <input id="filebutton" name="volitelne" class="input-file" type="file">
+    <input id="filebutton3" name="volitelne" value="'.$_POST['volitelne'].'" class="input-file" type="file">
   </div>
 </div>
 
 
 <!-- Multiple Checkboxes (inline) -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="checkboxes">ZŤP</label>
+  <label class="col-md-4 control-label">ZŤP</label>
   <div class="col-md-4">
-    <label class="checkbox-inline" for="checkboxes-0">
-      <input type="checkbox" name="ztp" id="checkboxes-0" value="1">
+    <label class="checkbox-inline" >
+      <input type="checkbox" name="ztp" value="'.$_POST['ztp'].'" id="checkboxes-0" value="1">
       Áno
     </label>
   </div>
 </div>
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="checkboxes">Poberateľ sociálneho štipendia</label>
+  <label class="col-md-4 control-label" >Poberateľ sociálneho štipendia</label>
   <div class="col-md-4">
-    <label class="checkbox-inline" for="checkboxes-0">
-      <input type="checkbox" name="soc" id="checkboxes-0" value="1">
+    <label class="checkbox-inline" >
+      <input type="checkbox" name="soc" value="'.$_POST['soc'].'" id="checkboxes-0" value="1">
       Áno
     </label>
   </div>
@@ -441,9 +445,9 @@ echo '<html>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">E-mail</label>  
+  <label class="col-md-4 control-label" for="mail">E-mail</label>  
   <div class="col-md-4">
-  <input id="textinput" name="email" type="text" placeholder="" class="form-control input-md" required="">
+  <input id="mail" name="email" value="'.$_POST['email'].'" type="text" placeholder="" class="form-control input-md" required="">
     
   </div>
 </div>
@@ -459,19 +463,17 @@ echo '<html>
 
 <!-- Password input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="passwordinput">Overenie hesla</label>
+  <label class="col-md-4 control-label" for="passwordinput1">Overenie hesla</label>
   <div class="col-md-4">
-    <input id="passwordinput" name="pass_check" type="password" placeholder="znova zadajte vaše heslo" class="form-control input-md" required="">
+    <input id="passwordinput1" name="pass_check" type="password" placeholder="znova zadajte vaše heslo" class="form-control input-md" required="">
     
   </div>
 </div>
 
 <!-- Button (Double) -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="button1id">Odoslať</label>
   <div class="col-md-8">
     <button id="button1id" name="send" class="btn btn-success">Odoslať</button>
-    <button id="button2id" name="reset" class="btn btn-danger">Vymazať</button>
   </div>
 </div>
 

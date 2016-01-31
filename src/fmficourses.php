@@ -1,6 +1,9 @@
 <?PHP
 function process_fmfi_courses()
 {
+    global $userrole;
+    if ($userrole === "admin") {
+       
 	print '<b>FMFI Courses</b><br /><br />';
 	if (isset($_GET['act']))
         {
@@ -23,6 +26,8 @@ function process_fmfi_courses()
         }
 	$fcdata = db_fmfi_courses();
 	show_table(array('ID', 'Course CODE', 'Course NAME', 'Credits'), $fcdata);
+}
+else{return;}
 }
 
 function edit_fmfi_course($fcs)

@@ -1,6 +1,8 @@
 <?PHP
 function process_foreign_credits()
 {
+  global $userrole;
+  if ($userrole === "admin") {
 	print '<b>Travel foreign courses</b><br /><br />';
 	$filter_exchange = retrieve_filter_exchange();
 	show_exchange_filter($filter_exchange);
@@ -30,6 +32,10 @@ function process_foreign_credits()
 	logmsg("ieve");
 	$tcf = format_travel_foreign_courses($tcdata);
 	show_table(array('ID', 'Foreign course code', 'Foreign course name', 'Credits', 'Grade', 'Course type'), $tcf);
+  }
+else{
+    return;
+}
 }
 
 function retrieve_filter_exchange()

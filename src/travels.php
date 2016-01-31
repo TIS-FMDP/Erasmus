@@ -1,6 +1,9 @@
 <?PHP
+
 function process_travels()
 {
+  global $userrole;
+  if ($userrole === "admin") {
 	print '<b>Travels</b><br /><br />';
 
 	list($filter_a, $filter_d1, $filter_d2) = configure_travel_filters();
@@ -51,6 +54,10 @@ function process_travels()
 	$tsdata = db_travels($filter_a, $filter_d1, $filter_d2);
 	$fts = format_travel_data($tsdata);
 	show_table(array('ID', 'Level', 'Agreement', 'Semester', 'Date FROM (Y-m-d)', 'Date TO (Y-m-d)', 'Student', 'Study program', 'Language:', 'Has', 'Expected', 'Soc.stip.', 'Handicap', 'Files', 'Courses', 'Notes', 'Cancelled'), $fts, TRUE, TRUE);
+  }
+  else {
+      return;
+  }
 }
 
 function print_link_travel($ts)

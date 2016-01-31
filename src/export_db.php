@@ -39,7 +39,7 @@ function db_export_students()
 }
 
 function db_export_agreements()
-{
+{       
 	global $link;
 	$maxfiles = db_count_files(idTabForName('AGREEMENTS'));
 	$stm = $link->stmt_init();
@@ -57,7 +57,8 @@ function db_export_agreements()
 		print_nl();
 	}
 	$stm->close();
-}
+    }
+  
 
 function db_export_rector()
 {

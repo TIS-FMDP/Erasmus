@@ -24,7 +24,7 @@ else{
   $result = mysqli_query($link,$sql);
   $universities = [];
   while($row = mysqli_fetch_array($result)){
-     $universities[] = $row['university'].' - '.$row['lang'].' - Priorita '.$row['priority'];
+     $universities[] = $row['university'].' - '.$row['lang'];
   $temp_born = explode("-",$row['born']);
   $born = $temp_born[2].'.'.$temp_born[1].'.'.$temp_born[0];
   if($row['HANDICAPPED'] == 0){
@@ -278,6 +278,9 @@ else{
 .xa{left:359.586667pt;}
 .x5{left:397.026655pt;}
 .x2{left:737.253322pt;}
+*{
+    font-size: 58px !important;
+}
 }
 </style>
 <script>

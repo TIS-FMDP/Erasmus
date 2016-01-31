@@ -1,6 +1,9 @@
 <?PHP
 function process_subject_areas()
 {
+    global $userrole;
+    if ($userrole === "admin") {
+       
 	print '<b>Subject Areas</b><br /><br />';
 	if (isset($_GET['act']))
         {
@@ -24,6 +27,8 @@ function process_subject_areas()
 	$sadata = db_subject_areas();
 	show_table(array('ID', 'Subject area CODE', 'Subject area NAME'), $sadata);
         print '<br /><br />For a list of areas, see: <a href="http://egracons.eu/sites/default/files/APPLICATION_OF_ISCED_CODES_IN_EGRACONS_TOOL_2015%2004%2008_1.pdf" target="_blank">ISCED CODES</a><br />';
+    }
+else{return;}
 }
 
 function edit_subject_area($sas)

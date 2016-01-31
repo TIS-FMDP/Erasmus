@@ -51,14 +51,21 @@ function process_logout()
 
 function process_logs()
 {
+    global $userrole;
+    if ($userrole === "admin") {
+        
 	print '<b>Logs</b><br /><br />';
 	$logdata = db_retrieve_logs();
 	show_table(array('date', 'ip', 'user', 'table', 'record', 'operation', 'description', 'new value'),
                    $logdata, FALSE);
 }
+else{return;}
+}
 
 function process_export()
 {
+ global $userrole;
+ if ($userrole === "admin") {  
 ?>
 <b>Export</b><br /><br />
 Select one of the export options:<br /><br />
@@ -72,6 +79,8 @@ Select one of the export options:<br /><br />
 To import CSV file to Excel - select Data from the main menu then Import data from text file, choose UTF-8 encoding and comma and double-quotes as delimiters.<br />
 To import it in OpenOffice, open it as a file and select the delimiters and encoding in the forthcoming dialog.
 <?PHP
+ }
+ else{return;}
 }
 
 function remove_record($agg)

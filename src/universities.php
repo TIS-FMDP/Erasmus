@@ -1,6 +1,9 @@
 <?PHP
 function process_universities()
 {
+    global $userrole;
+    if ($userrole === "admin") {
+        
 	print '<b>Universities</b><br /><br />';
 	if (isset($_GET['act']))
         {
@@ -23,6 +26,8 @@ function process_universities()
         }
 	$unidata = db_universities_with_countries();
 	show_table(array('ID', 'University name (country)', 'Erasmus code'), $unidata);
+    }
+    else{return;}
 }
 
 function edit_university($agg)

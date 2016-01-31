@@ -17,7 +17,7 @@ include 'application.php';
 include 'application_list.php';
 include 'edit_form.php';
 
-//error_reporting(E_ERROR | E_WARNING | E_PARSE);
+error_reporting(E_WARNING);
 session_start();
 $link = db_connect();
 

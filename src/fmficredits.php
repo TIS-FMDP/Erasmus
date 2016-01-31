@@ -1,7 +1,10 @@
 <?PHP
 function process_fmfi_credits()
 {
-	print '<b>Travel FMFI courses</b><br /><br />';
+    global $userrole;
+    if ($userrole === "admin") {
+	
+    print '<b>Travel FMFI courses</b><br /><br />';
 	$filter_exchange = retrieve_filter_exchange();
 	show_exchange_filter($filter_exchange);
 
@@ -30,6 +33,10 @@ function process_fmfi_credits()
 	logmsg("ieve $filter_exchange");
 	$tcf = format_travel_fmfi_courses($tcdata);
 	show_table(array('ID', 'FMFI course', 'Grade'), $tcf);
+}
+else{
+    return;
+}
 }
 
 function format_travel_fmfi_courses($tcdata)

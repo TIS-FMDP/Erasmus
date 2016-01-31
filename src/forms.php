@@ -72,11 +72,14 @@ if (strlen($userid) === 0) return;
         else { 
             print '';
             }
+   
          
-
-
-
 }
+
+
+
+
+
 
 function show_public_menu()
 {
@@ -381,6 +384,9 @@ function format_item($item)
 
 function show_year_filter()
 {
+    global $userrole;
+    if ($userrole === "admin") {
+        
   global $first_year, $selected_year;
   $menuitem = $_GET['m'];
   $sort_url = determine_sort_url();
@@ -396,6 +402,8 @@ function show_year_filter()
   }
   print '</select></form><br />' . "\n";
 }
+else{return;}
+  }
 ?>
 
 <?PHP
@@ -408,7 +416,7 @@ function show_headers($year_filter)
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="moj_style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Internal storage for Erasmus FMFI UK</title>
+<title>Erasmus register FMFI UK</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js"></script>
 
@@ -416,7 +424,7 @@ function show_headers($year_filter)
   <div class="jumbotron">
   <div class="img_logo1"><img src="images/logo_sk.gif" /></div>
   <div class="img_logo2"><img src="images/rsz_comenius-logo.png" /></div>
-    <h3>Internal storage for Erasmus FMFI UK</h3>  
+    <h3>Erasmus register FMFI UK</h3>  
   </div>
 </div>
 

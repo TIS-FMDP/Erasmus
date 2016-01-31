@@ -31,7 +31,7 @@ function export_rector()
 function export_students()
 {
 	headers_for_export('students.csv');
-	db_export_students();	
+	db_export_students();
 }
 
 function export_agreements()

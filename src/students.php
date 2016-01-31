@@ -1,6 +1,9 @@
 <?PHP
 function process_students()
 {
+    global $userrole;
+   if ($userrole === "admin") {
+       
 	print '<b>Students</b><br /><br />';
 	if (isset($_GET['act']))
         {
@@ -36,6 +39,8 @@ function process_students()
 	$stdata = db_students();
 	$stfd = format_student_data($stdata);
 	show_table(array('ID', 'First name', 'Middle names', 'Last name', 'Born', 'StudentID', 'Gender', 'Citizenship', 'E-mail', 'Study programs', 'Year 1st participated'), $stfd);
+}
+else{return;}
 }
 
 function yes_remove()

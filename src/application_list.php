@@ -1,5 +1,8 @@
 <?php  
 function get_applications(){ 
+    global $userrole;
+    if ($userrole === "admin") {
+    
 include 'includes/paginator.class.php';  
 $link = db_connect();
 
@@ -157,5 +160,7 @@ td.name {
   <?=sprintf('Celkovo prihlášok', $pagination->items_total)?> &bull; <?=sprintf("Stránka <strong>%d</strong> z <strong>%d</strong>", $pagination->current_page, $pagination->num_pages)?> &bull; <span><?=$pagination->display_pages()?></span>
 </div>
 <?php
+}
+else{return;}
 }
 ?>
