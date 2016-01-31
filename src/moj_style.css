@@ -79,3 +79,7 @@ hr{
 .table td{
     text-align: center;
 }
+
+.special {
+    overflow: hidden;
+}

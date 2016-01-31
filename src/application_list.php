@@ -17,16 +17,66 @@ $bg = false;
 while ($row = mysqli_fetch_array($query))
         {
           $row_bg = ($bg) ? 'row2' : 'row1';
-          $application_row .= '<tr class="' . $row_bg . '">
+          $application_row .= 
+                '<tr class="' . $row_bg . '">
 	                <td>' . $row['ID'] . '</td>
-                  <td>' . $row['FIRSTNAME'] . ' ' . $row['LASTNAME'] . '</td>
+                    <td>
+                        <a href="#" cId="'. $row['ID'] .'" class="show-btns">' . $row['FIRSTNAME'] . ' ' . $row['LASTNAME'] . '</a>
+                        <div class="btns-group">
+                            <a href="?m=app_list?edit=' . $row['ID'] . '" class="green">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+                            <a href="?m=app_list?preview=' . $row['ID'] . '" class="blue">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <a href="#" onClick="tryDelete(' . $row['ID'] . ')" class="red">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
 	                <td>' . $row['SEMESTER'] . '</td>
-                  <td>' . $row['state'] . '</td>
+                    <td>' . $row['state'] . '</td>
                 </tr>';
-                  $bg = !$bg;
+                $bg = !$bg;
         }
 ?>
+<script>
+function tryDelete(id) {
+    var del = confirm("Are you sure to delete '" + id + "' ?");
+    if (del) {
+        window.location.replace("?m=app_list?del=" + id);
+    }
+}    
+
+$(document).ready(function(){
+    $('.show-btns').click(function(event) {
+        event.preventDefault();
+        $(this).next().toggleClass("x-show");
+    });
+    $('.show-btns').dblclick(function(event) {
+        event.preventDefault();
+        window.location.replace("?m=app_list?edit=" + $(this).attr('cId'));
+        console.log('FUCK');
+    });    
+});
+</script>
 <style>
+.btns-group {
+    display: inline;
+    visibility: hidden;
+}
+.x-show {
+    visibility: visible !important;
+}
+.blue {
+    color: darkblue !important;
+}
+.green {
+    color: green !important;
+}
+.red {
+    color: red !important;
+}
 table {
 	width: 100%;
 	border: 1px solid #CCCFD3;
@@ -142,7 +192,6 @@ td.name {
 <h1>Zoznam prihlášok</h1>
 <p>Zoznam všetkých podaných prihlášok</p>
 
-                                                          
 <table width="100%" cellpadding="3" cellspacing="1" class="table1">
 	<thead>
 		<tr>
@@ -157,7 +206,7 @@ td.name {
 	</tbody>
 </table>
 <div class="pagination">
-  <?=sprintf('Celkovo prihlášok', $pagination->items_total)?> &bull; <?=sprintf("Stránka <strong>%d</strong> z <strong>%d</strong>", $pagination->current_page, $pagination->num_pages)?> &bull; <span><?=$pagination->display_pages()?></span>
+    <?=sprintf('Celkovo prihlášok', $pagination->items_total)?> &bull; <?=sprintf("Stránka <strong>%d</strong> z <strong>%d</strong>", $pagination->current_page, $pagination->num_pages)?> &bull; <span><?=$pagination->display_pages()?></span>
 </div>
 <?php
 }
