@@ -16,9 +16,12 @@
 
 .btn {
 	float:right;
-    margin-left: 5px;
+    margin:5px;
 }
 
+.form-group{
+    margin-top: 5px !important;
+}
 
 body{
 	background-color:white;
