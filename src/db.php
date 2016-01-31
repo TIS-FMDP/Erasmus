@@ -4,7 +4,7 @@ function db_connect()
 {
 	global $DB_USER, $DB_PASS, $DB_NAME;
 	$link = new mysqli('localhost',$DB_USER,$DB_PASS,$DB_NAME);
-    mysqli_set_charset($con,"utf8");
+    mysqli_set_charset($link,"utf8");
         if ($link->connect_error)
 		die('Could not connect to database erasmus ' . $link->connect_error); 
 	return $link;
