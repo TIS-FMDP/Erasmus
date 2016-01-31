@@ -25,7 +25,7 @@ function show_main_menu()
 global $userid, $userrole;
 
 ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 <a type="button" class="btn btn-default" href="index.php?m=logout">Logout</button></a>
 
 <?PHP
@@ -410,7 +410,6 @@ else{return;}
 function show_headers($year_filter)
 {
 ?>
-
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -421,7 +420,8 @@ function show_headers($year_filter)
 <title>Erasmus register FMFI UK</title>
 <script src="js/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js"></script>
-
+</head>
+<body>
 <div class="container">
   <div class="jumbotron">
   <div class="img_logo1"><img src="images/logo_sk.gif" /></div>
