@@ -218,8 +218,8 @@ echo '<meta http-equiv="refresh" content="0"';
 <div class="form-group">
   <label class="col-md-4 control-label" for="textinput">Dátum narodenia</label>  
   <div class="col-md-4">
-  <input id="textinput" name="birthdate" type="text" value="<?=$borned_input?>" placeholder="dd.mm.yyyy" class="form-control input-md" required="">
-    
+  <input id="textinput1" name="birthdate" type="text" value="<?=$borned_input?>" placeholder="dd.mm.yyyy" class="form-control input-md datepicker" required="">
+  <i class="fa fa-calendar datepicker-icon"></i>
   </div>
 </div>
 
@@ -491,8 +491,8 @@ if($userrole === "admin"){
 <div class="form-group">
   <label class="col-md-4 control-label" for="textinput">Začiatok výmenného pobytu</label>  
   <div class="col-md-4">
-  <input id="textinput" name="date_from" type="text" value="<?=$from_date_?>" placeholder="dd.mm.yyyy" class="form-control input-md" required="">
-    
+  <input id="textinput2" name="date_from" type="text" value="<?=$from_date_?>" placeholder="dd.mm.yyyy" class="form-control input-md datepicker" required="">
+  <i class="fa fa-calendar datepicker-icon"></i>
   </div>
 </div>
 
@@ -500,7 +500,8 @@ if($userrole === "admin"){
 <div class="form-group">
   <label class="col-md-4 control-label" for="textinput">Koniec výmenného pobytu</label>  
   <div class="col-md-4">
-  <input id="textinput" name="date_to" type="text" value="<?=$to_date_?>" placeholder="dd.mm.yyyy" class="form-control input-md" required="">  
+  <input id="textinput3" name="date_to" type="text" value="<?=$to_date_?>" placeholder="dd.mm.yyyy" class="form-control input-md datepicker" required="">
+  <i class="fa fa-calendar datepicker-icon"></i>  
   </div>
 </div>
 <div class="form-group">
