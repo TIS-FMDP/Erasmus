@@ -23,10 +23,10 @@ while ($row = mysqli_fetch_array($query))
                     <td>
                         <a href="#" cId="'. $row['ID'] .'" class="show-btns">' . $row['FIRSTNAME'] . ' ' . $row['LASTNAME'] . '</a>
                         <div class="btns-group">
-                            <a href="?m=app_list?edit=' . $row['ID'] . '" class="green">
+                            <a href="?m=application_edit&id=' . $row['ID'] . '" class="green">
                                 <i class="fa fa-pencil-square-o"></i>
                             </a>
-                            <a href="?m=app_list?preview=' . $row['ID'] . '" class="blue">
+                            <a href="?m=application_preview&id=' . $row['ID'] . '" class="blue">
                                 <i class="fa fa-search"></i>
                             </a>
                             <a href="#" onClick="tryDelete(' . $row['ID'] . ')" class="red">
@@ -44,7 +44,7 @@ while ($row = mysqli_fetch_array($query))
 function tryDelete(id) {
     var del = confirm("Are you sure to delete '" + id + "' ?");
     if (del) {
-        window.location.replace("?m=app_list?del=" + id);
+        window.location.replace("?m=application_delete&id=" + id);
     }
 }    
 
@@ -55,7 +55,7 @@ $(document).ready(function(){
     });
     $('.show-btns').dblclick(function(event) {
         event.preventDefault();
-        window.location.replace("?m=app_list?edit=" + $(this).attr('cId'));
+        window.location.replace("?m=application_edit&id=" + $(this).attr('cId'));
         console.log('FUCK');
     });    
 });
