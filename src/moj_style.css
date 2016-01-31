@@ -86,3 +86,14 @@ hr{
 .special {
     overflow: hidden;
 }
+
+.datepicker {
+    display: inline;
+}
+
+.datepicker-icon {
+    position: absolute;
+    top: 9px;
+    right: 25px;
+    color: grey;
+}
