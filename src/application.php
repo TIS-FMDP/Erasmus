@@ -41,9 +41,7 @@ $pass_check = ($submit) ? $safe->input($_POST['pass_check']) : '';
 $error = false;
 $error_log = "";
 
-$act_year = date("Y");
-$next_year = $act_year + 1;
-$year = $act_year.'/'.$next_year;
+global $year;
 
 
 if($submit){
@@ -102,6 +100,34 @@ if ($error== false){
     $sql = 'INSERT INTO AGREEMENTS_PRIORITY (ID_UNIVERSITY, ID_STUDENT, ID_LANGUAGE, PRIORITY) VALUES ("'. $bilateral_3 .'","'. $student_id .'", "'. $lang_3 .'", 3)';
     $query = mysqli_query($link,$sql) or die(mysqli_error($link));
     
+    $files = array();
+
+    // if block 1
+    if(!empty($_FILES[$_FILES['files[]']]['tmp_name'])) {   
+        echo "ti";
+        for($i = 0; $i < count($_FILES[$_FILES['files[]']]['tmp_name']); $i++) {
+
+            // if block #2
+            if(!empty($_FILES[$_FILES['files[]']]['tmp_name']) && is_uploaded_file($_FILES[$_FILES['files[]']]['tmp_name'][$i])) {
+
+                # we're dealing with multiple uploads
+
+                $handle['key']      = $name;
+                $handle['name']     = $_FILES[$_FILES['files[]']]['name'][$i];
+                $handle['size']     = $_FILES[$_FILES['files[]']]['size'][$i];
+                $handle['type']     = $_FILES[$_FILES['files[]']]['type'][$i];
+                $handle['tmp_name'] = $_FILES[$_FILES['files[]']]['tmp_name'][$i];
+
+                // put each array into the $files array
+                array_push($files,$this->_process_image($handle));
+            }
+
+            #block 3...
+        }
+
+        return $files;
+
+}
     if($query1 && $query2 && $query3 && $query4){                                                           
       $error_log .= 'Boli ste úspešne zaregistrovaný!';
       try{
@@ -110,9 +136,9 @@ if ($error== false){
         $mail->AddAddress($email);
         $mail->Subject = "Registrácia na stránke Erasmus FMFI"; 
         $email_body = file_get_contents('user_register.txt');
-        $patterns = array('([{]EMAIL[}])', '([{]PASSWORD[}])', '([{]CODE[}])');
+        $patterns = array('([{]EMAIL[}])', '([{]CODE[}])');
         
-        $replacements = array($email, $pass, $code);
+        $replacements = array($email, $code);
         $email_body = preg_replace ($patterns, $replacements, $email_body);
         $mail->Body = $email_body;
         $mail->Send();

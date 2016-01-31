@@ -23,6 +23,7 @@ function process_form_submissions()
 		case 'subjectareas': process_subject_areas(); break;
 		case 'export': process_export(); break;
     case 'app_list': get_applications(); break;
+    case 'application_edit': application_edit(); break;
     case 'edit_form': edit_application(); break;
 		default:
 		case 'welcome': show_welcome(); break;

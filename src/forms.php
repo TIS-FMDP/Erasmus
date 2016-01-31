@@ -35,9 +35,7 @@ if ($userrole === 'admin')
 <a type="button" class="btn btn-default" href="index.php?m=app_list">Application list</button></a>
 <a type="button" class="btn btn-default" href="index.php?m=logs">Logs</button></a>
 <a type="button" class="btn btn-default" href="index.php?m=export">Export</button></a>
-<?PHP
-}
-?>
+
 
 
 
@@ -73,12 +71,26 @@ if (strlen($userid) === 0) return;
             print '';
             }
    
-         
+   }      
+  
+elseif($userrole === 'student')
+{
+?>
+<div class="main">
+	<hr>
+	<div id="sidebar">
+		<ul class="nav nav-pills nav-stacked">
+			<li><a href="index.php?m=welcome">Welcome</a></li>
+			<li><a href="index.php?m=application">Application form</a></li>
+			<li><a href="index.php?m=agreements">Bilateral agreements</a></li>
+		</ul>
+	</div>
+	<div class="tables">
+<?php
+
 }
 
-
-
-
+}
 
 
 function show_public_menu()
