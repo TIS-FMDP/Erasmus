@@ -24,6 +24,8 @@ function process_form_submissions()
 		case 'export': process_export(); break;
     case 'app_list': get_applications(); break;
     case 'application_edit': application_edit(); break;
+    case 'application_preview': application_preview(); break;
+    case 'application_delete': application_delete(); break;
     case 'edit_form': edit_application(); break;
 		default:
 		case 'welcome': show_welcome(); break;

@@ -31,10 +31,18 @@ global $userid, $userrole;
 <?PHP
 if ($userrole === 'student')
 {
+$link = db_connect();
+global $userid;
+
+$sql = 'SELECT * FROM STUDENTS S LEFT JOIN STUDENT_STUDY_PROGRAMS SSP ON S.ID=SSP.ID_STUDENT LEFT JOIN USERS US ON S.ID = US.student_id LEFT JOIN STUDY_PROGRAMS SP ON SP.ID=SSP.ID_STUDYPROGRAM LEFT JOIN STUDENT_EXCHANGES SE ON SSP.ID=SE.ID_STUDENT_STUDY_PROGRAM WHERE US.ID = "'.$userid.'"';
+
+$query = mysqli_query($link,$sql) or die(mysqli_error($link));
+$row = mysqli_fetch_array($query);
+$id_stud = $row['ID'];
 ?>
-<a type="button" class="btn btn-default" href="index.php?m=app_list">Preview</button></a>
-<a type="button" class="btn btn-default" href="index.php?m=logs">Edit</button></a>
-<a type="button" class="btn btn-default" href="index.php?m=export">Print</button></a>
+<a type="button" class="btn btn-default" href="index.php?m=application_preview&id=<?php echo $id_stud; ?>">Preview</button></a>
+<a type="button" class="btn btn-default" href="index.php?m=application_edit&id=<?php echo $id_stud; ?>">Edit</button></a>
+<a type="button" class="btn btn-default" href="application_print.php?id=<?php echo $row[0]; ?>">Print</button></a>
 
 
 <?PHP
@@ -332,7 +340,20 @@ print '<input type="submit" name="Save" value="save" /> ';
 print '<input type="submit" name="Cancel" value="cancel" /></form>';
 print "\n";
 }
-
+function app_state($state){
+  if($state == 0){
+    return "Podaná";
+  }
+  if($state == 1){
+    return "Schválená";
+  }
+  if($state == 2){
+    return "Zrušená";
+  }
+  else{
+    return;
+  }
+}
 function show_delete_file_form($fileid, $filename, $filedesc, $fwdvars)
 {
   global $filter_url, $selected_year;

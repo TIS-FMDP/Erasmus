@@ -16,6 +16,8 @@ include 'control_logic.php';
 include 'application.php';
 include 'application_list.php';  
 include 'application_edit.php'; 
+include 'application_preview.php'; 
+include 'application_delete.php'; 
 include 'edit_form.php';
 
 error_reporting(E_WARNING);

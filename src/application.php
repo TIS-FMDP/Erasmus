@@ -100,6 +100,13 @@ if ($error== false){
     $sql = 'INSERT INTO AGREEMENTS_PRIORITY (ID_UNIVERSITY, ID_STUDENT, ID_LANGUAGE, PRIORITY) VALUES ("'. $bilateral_3 .'","'. $student_id .'", "'. $lang_3 .'", 3)';
     $query = mysqli_query($link,$sql) or die(mysqli_error($link));
     
+    $sql = 'INSERT INTO study_points (ID_STUDENT, TYPE, POINTS) VALUES ("'. $student_id .'", 1,0)';
+    $query = mysqli_query($link,$sql) or die(mysqli_error($link));
+    $sql = 'INSERT INTO study_points (ID_STUDENT, TYPE, POINTS) VALUES ("'. $student_id .'", 2,0)';
+    $query = mysqli_query($link,$sql) or die(mysqli_error($link));
+    $sql = 'INSERT INTO study_points (ID_STUDENT, TYPE, POINTS) VALUES ("'. $student_id .'", 3,0)';
+    $query = mysqli_query($link,$sql) or die(mysqli_error($link));
+    
     $files = array();
 
     // if block 1

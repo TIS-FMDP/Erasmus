@@ -35,7 +35,7 @@ while ($row = mysqli_fetch_array($query))
                         </div>
                     </td>
 	                <td>' . $row['SEMESTER'] . '</td>
-                    <td>' . $row['state'] . '</td>
+                    <td>' . app_state($row['state']) . '</td>
                 </tr>';
                 $bg = !$bg;
         }
