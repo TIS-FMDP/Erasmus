@@ -2,48 +2,93 @@
 
 ## 1.1. Administrator
 
-- 
 - Navracie prihlášky študentom, ak sú údaje chybné
 - Pridáva body za aktivitu, výsledky jazykových testov
 - Potrebuje zmenit deadline podavanie prihlasok
 - Zverjni výsledky podania prihlášok
-- Chce zmeniť/alebo vymazať prihlášku (poznamay)
+- Chce zmeniť/alebo vymazať prihlášku
 - Potvrdit prihlášku
 - Sortovanie tabuliek
-
-Študent
-- si chce pozrieť výsledky
-- Potrebuje vidie´t kde sa koľko ľudí hlasi
 
 ### 1.1.1.Editácia prihlášky
 
 Administrátor chce editovať konkrétnu prihlášku študenta. 
 
 **vstup:** Administrátor klikne na zoznam prihlášok v ľavom paneli.
+
 **výstup:** Zobrazí sa zoznam s prihláškami
 
 **vstup:** Dvojklik na riadok s konkrétnou prihláškou
+
 **výstup:** Zobrazenie prihlášky s vyplnenými údajmi pre editáciu
 
 **vstup:** Administrátor edituje údaje, vyberie stav prihlášky(potvrdená, vrátená, zamietnutá...)
+
 **výstup:** správa o ne/úspešnom editovaní prihlášky
 
-### 1.1.2. Zmena deadline podávania prihlášok
+### 1.1.2. Vymazanie prihlasky
+
+Vymazanie prihlasky funguje podobnym sposobom ako editacia prihlasky.
+
+**vstup:** Administrátor klikne na zoznam prihlášok v ľavom paneli.
+
+**výstup:** Zobrazí sa zoznam s prihláškami
+
+**vstup:** Nasledne klikne na nazov prihlasky
+
+**výstup:** Zobrazenie 3 tlacidiel na editaciu prihlasky
+
+**vstup:** Kliknutie na tlacidlo kosa, cize akcia vymazania danej prihlasky 
+
+**výstup:** Vyskoci dialogove okno pre potvrdenie akcie vymazania prihlasky
+
+**vstup:** Potvrdenie akcie
+
+**výstup:** Prihlaska sa vymaze z tabulky
+
+### 1.1.3. Tlac prihlasky
+
+Tlac prihlasky funguje podobnym sposobom ako editacia prihlasky.
+
+**vstup:** Administrátor klikne na zoznam prihlášok v ľavom paneli.
+
+**výstup:** Zobrazí sa zoznam s prihláškami
+
+**vstup:** Nasledne klikne na nazov prihlasky
+
+**výstup:** Zobrazenie 3 tlacidiel na editaciu prihlasky
+
+**vstup:** Kliknutie na tlacidlo lupy, cize akcia nahladu danej prihlasky
+
+**výstup:** Zobrazi sa nova karta v prehliadaci s nahladom pre tlac prihlasky
+
+### 1.1.4. Zmena deadline podávania prihlášok
 
 V každom akademickom roku adminisitrátor mení dátum dokedy sa môžu 
 prihlášky podávať.
 
 **vstup:** Zmení dátum v ľavom paneli.
+
 **výstup:** Informácia o ne/úspešnej zmene.
 
+### 1.1.5. Rozbalovanie a zabalovanie dlhych nazvov vymennych kurzov
 
+Kvoli dlhym nazvom kurzov bolo pridane tlacidlo more/less
 
- 
+**vstup:** Administrator zobrazi vsetky vycestovania
 
+**výstup:** Tabulka s danymi informaciami
 
+**vstup:** Admin klikne v stlpci courses na tlacidlo **more** pre zobrazenie rozsirenej infomracie
 
+**výstup:** Zobrazenie rozsirenej informacie v danom stlpci
+
+Pre spatne zbalenie informacie admin klikne v stlpci courses na tlacidlo **less**, ktore zbali text.
 
 ## 1.2. Študent
+
+- si chce pozrieť výsledky
+- Potrebuje vidie´t kde sa koľko ľudí hlasi
 
 ### 1.2.1. Registrácia vyplnenim prihlášky
 
@@ -117,4 +162,6 @@ Na poslednú chvíľu sa uživateľ rozhodne upraviť podanú prihlášku.
 **vstup:** Po zmenení potrebných údajov, uživateľ klikne na Potvrdiť
 
 **výstup:** Zobrazenie zmenenej prihlášky
+
+### 1.2.6. Upload suborov
 
