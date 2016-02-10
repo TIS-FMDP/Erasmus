@@ -1,4 +1,4 @@
-# Zápisnica č.2
+# Zápisnica č.2 
 
 **Dátum stretnutia:** 11.10.2015
 
