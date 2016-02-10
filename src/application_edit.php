@@ -612,7 +612,7 @@ if($userrole === "admin"){
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Body za jazykový kurz</label>  
+  <label class="col-md-4 control-label" for="textinput">Body za jazykový test</label>  
   <div class="col-md-1">
   <input id="textinput" name="jazyk_body" type="text" value="<?=$points_array[1]?>"  class="form-control input-md">  
   </div>
