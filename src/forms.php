@@ -480,7 +480,7 @@ function show_headers($year_filter)
   <div class="jumbotron">
   <div class="img_logo1"><img src="images/logo_sk.gif" /></div>
   <div class="img_logo2"><img src="images/rsz_comenius-logo.png" /></div>
-    <h3>Erasmus register FMFI UK</h3>  
+    <h3>Erasmus+  register FMFI UK</h3>  
   </div>
 </div>
 
