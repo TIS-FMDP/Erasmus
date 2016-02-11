@@ -23,7 +23,8 @@ global $year;
 
 $sql = 'SELECT * FROM STUDENTS S LEFT JOIN STUDENT_STUDY_PROGRAMS SSP ON S.ID=SSP.ID_STUDENT 
         LEFT JOIN STUDY_PROGRAMS SP ON SP.ID=SSP.ID_STUDYPROGRAM 
-        LEFT JOIN STUDENT_EXCHANGES SE ON SSP.ID=SE.ID_STUDENT_STUDY_PROGRAM WHERE SE.ID = "'.$id.'"';
+        LEFT JOIN STUDENT_EXCHANGES SE ON SSP.ID=SE.ID_STUDENT_STUDY_PROGRAM
+        LEFT JOIN FILES F ON SE.ID = F.ID_RECORD  WHERE SE.ID = "'.$id.'"';
 
 
 $query = mysqli_query($link,$sql) or die(mysqli_error($link));
@@ -491,6 +492,9 @@ echo '<meta http-equiv="refresh" content="0"';
     </label>
   </div>
 </div>
+<h2>Upload súborov</h2>
+<hr>
+
 <?php
 if($userrole === "admin"){
 ?>

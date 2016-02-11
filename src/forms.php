@@ -299,6 +299,7 @@ foreach ($column_labels as $label)
   else if ($column_types[$cnt] === 'files')
   {
     $filecnt = 0;
+    print_r($data);
     foreach($data[$cnt] as $file)
     {
       print $file[2] . ': ' . $file[1] . "\n";

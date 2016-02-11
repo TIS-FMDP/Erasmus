@@ -432,27 +432,6 @@ echo '<html>
     <textarea class="form-control" id="activity" name="notes" value="'.$_POST['notes'].'"></textarea>
   </div>
 </div>
-<!-- File Button --> 
-<div class="form-group">
-  <label class="col-md-4 control-label" >Motivačný list</label>
-  <div class="col-md-4">
-    <input id="filebutton1" name="motivacny_list" value="'.$_POST['motivacny_list'].'" class="input-file" type="file">
-  </div>
-</div>
-<!-- File Button --> 
-<div class="form-group">
-  <label class="col-md-4 control-label" >Životopis</label>
-  <div class="col-md-4">
-    <input id="filebutton2" name="zivotopis" value="'.$_POST['zivotopis'].'" class="input-file" type="file">
-  </div>
-</div>
-<!-- File Button --> 
-<div class="form-group">
-  <label class="col-md-4 control-label" >Voliteľné</label>
-  <div class="col-md-4">
-    <input id="filebutton3" name="volitelne" value="'.$_POST['volitelne'].'" class="input-file" type="file">
-  </div>
-</div>
 
 
 <!-- Multiple Checkboxes (inline) -->
