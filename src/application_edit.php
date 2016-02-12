@@ -3,6 +3,7 @@ function application_edit(){
 
 $id = $_GET['id'];
 global $userrole;
+global $ERA;
 include 'includes/form.php';
 include 'includes/safe.php';
 
@@ -21,18 +22,25 @@ $error_log = "";
 
 global $year;
 
+
 $sql = 'SELECT * FROM STUDENTS S LEFT JOIN STUDENT_STUDY_PROGRAMS SSP ON S.ID=SSP.ID_STUDENT 
         LEFT JOIN STUDY_PROGRAMS SP ON SP.ID=SSP.ID_STUDYPROGRAM 
         LEFT JOIN STUDENT_EXCHANGES SE ON SSP.ID=SE.ID_STUDENT_STUDY_PROGRAM
-        LEFT JOIN FILES F ON SE.ID = F.ID_RECORD  WHERE SE.ID = "'.$id.'"';
+         WHERE SE.ID = "'.$id.'"';
 
 
 $query = mysqli_query($link,$sql) or die(mysqli_error($link));
 $row = mysqli_fetch_array($query);
 $id_stud = $row[0];
 $id_exchange = $row['ID'];
-echo('<br>');
+echo('<br>');     
 
+if(isset($_GET['del'])){
+    $sql = 'DELETE FROM files WHERE ID = "'.$_GET['del'].'"';
+    $query = mysqli_query($link,$sql) or die(mysqli_error($link));    
+    header('Location: index.php?m=application_edit&id='.$id_exchange);  
+}
+    
 $sqll = 'SELECT * 
 FROM AGREEMENTS_PRIORITY AP
 WHERE id_student="'. $row['0'] .'"';
@@ -66,6 +74,63 @@ $to_date_  =  $to_date[2].'.'.$to_date[1].'.'.$to_date[0];
 $birth =  explode("-",$row['BORN']);
 $borned_input = $birth[2].'.'.$birth[1].'.'.$birth[0];
 
+if(isset($_POST['upload'])){
+$forbidden_ext = array('asp', 'cgi', 'dhtm', 'dhtml', 'exe', 'htm', 'html', 'jar', 'js', 'php', 'php3', 'pl', 'sh', 'shtm', 'shtml');
+if (!empty($_FILES)) 
+{
+	$tempFile = $_FILES['uploadedfile']['tmp_name'];
+  $isFile = is_uploaded_file($tempFile);
+  if ($isFile)   
+  { 
+    $max_filesize = 5 * 1024 * 1024;
+	  $fileParts = pathinfo($_FILES['uploadedfile']['name']);
+	  $extension = strtolower($fileParts['extension']);
+	  $targetFile = $fileParts['filename'];
+    setlocale(LC_CTYPE, 'sk_SK.UTF-8');
+    $safe_filename = iconv('UTF-8', 'ASCII//TRANSLIT', preg_replace(array("/\s+/"), array("_"), $targetFile));
+    if (!in_array($extension, $forbidden_ext)) 
+    {
+      if ($_FILES['uploadedfile']['size'] <= $max_filesize)
+      {         
+        $file = 'uploads/'. $safe_filename . '.' . $extension;
+        if (file_exists($file))
+        {
+          $i = 2;
+          while (file_exists('uploads/'. $safe_filename . '(' . $i . ').' . $extension)) $i++;
+          $file = 'uploads/' . $safe_filename . '(' . $i . ').' . $extension;
+        }       
+        $moved = move_uploaded_file($tempFile, $file);
+        if ($moved)
+        {
+       
+          $sql = 'INSERT INTO files (ID_TAB, ID_RECORD, ORIGINAL_FILE_NAME, DESCRIPTION, PUBLIC) VALUES (3,"' . $row['ID'] . '", "' . $file . '","' . $_POST['desc'] . '",1);';
+          $query = mysqli_query($link,$sql) or die(mysqli_error($link));
+          if ($query)
+          {     
+            header("Refresh:0");    
+          }                      
+          else
+          {
+            $echo("chyba");            
+          }
+        }
+        else
+        {
+          $echo("subor neuploadnuty");            
+        }           
+      }
+      else
+      {
+        $echo("prilis velky subor");      
+      }  
+	  } 
+    else 
+    {
+      $echo("zakazana pripona ".$extension); 
+    }	
+}
+}
+}
 if($submit){
 $student_name = ($submit) ? $safe->input($_POST['student_name']) : '';
 $student_surname = ($submit) ? $safe->input($_POST['student_surname']) : '';
@@ -494,6 +559,18 @@ echo '<meta http-equiv="refresh" content="0"';
 </div>
 <h2>Upload súborov</h2>
 <hr>
+<form class="form-horizontal" name="upload_files" method="post" enctype="multipart/form-data">
+<?php 
+$sql = 'SELECT * FROM FILES WHERE ID_RECORD = "'.$id_exchange.'"';
+$query = mysqli_query($link,$sql) or die(mysqli_error($link));
+while($row = mysqli_fetch_array($query)){
+  echo '<a href="'.$row['ORIGINAL_FILE_NAME'].'">'.$row['ORIGINAL_FILE_NAME'].'</a><a href="index.php?m=application_edit&id='.$id.'&del='.$row['ID'].'"><img src="images/recyclebin.gif" alt="recycle file" title="recycle file" /></a><br>';
+}
+?>
+<input type="text" size="40" name="desc" placeholder="enter file description" /><br />
+<input type="file" name="uploadedfile" id="uploadedfile" /> 
+<input type="submit" name="upload" value="Upload" />
+</form>
 
 <?php
 if($userrole === "admin"){

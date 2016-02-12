@@ -1,6 +1,9 @@
 <?php  
 function process_application(){  
-
+global $deadline;
+global $current_date;
+if($current_date < $deadline)
+{
 include 'includes/form.php';
 include 'includes/safe.php';
 include 'includes/class.phpmailer.php';
@@ -494,4 +497,9 @@ echo '<html>
 </html>';
 }
 
+else{
+ 
+  header('Location: index.php');
+}
+}
 ?>

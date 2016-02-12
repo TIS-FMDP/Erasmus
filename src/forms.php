@@ -42,7 +42,8 @@ $id_stud = $row['ID'];
 ?>
 <a type="button" class="btn btn-default" href="index.php?m=application_preview&id=<?php echo $id_stud; ?>">Preview</button></a>
 <a type="button" class="btn btn-default" href="index.php?m=application_edit&id=<?php echo $id_stud; ?>">Edit</button></a>
-<a type="button" class="btn btn-default" href="application_print.php?id=<?php echo $row[0]; ?>">Print</button></a>
+<a type="button" class="btn btn-default" href="application_print.php?id=<?php echo $row[0]; ?>">Print as application</button></a>
+<a type="button" class="btn btn-default" href="trip_print.php?id=<?php echo $row[0]; ?>">Print as internship</button></a>
 
 
 <?PHP
@@ -99,7 +100,6 @@ elseif($userrole === 'student')
 	<div id="sidebar">
 		<ul class="nav nav-pills nav-stacked">
 			<li><a href="index.php?m=welcome">Welcome</a></li>
-			<li><a href="index.php?m=application">Application form</a></li>
 			<li><a href="index.php?m=agreements">Bilateral agreements</a></li>
 		</ul>
 	</div>
@@ -113,13 +113,21 @@ elseif($userrole === 'student')
 
 function show_public_menu()
 {
+global $deadline;
+global $current_date;
+
 ?>
 <div class="main">
 	<hr>
 	<div id="sidebar">
 		<ul class="nav nav-pills nav-stacked">
 			<li><a href="index.php?m=welcome">Welcome</a></li>
-			<li><a href="index.php?m=application">Application form</a></li>
+      <?php
+      if($current_date < $deadline)
+{
+    echo '<li><a href="index.php?m=application">Application form</a></li>';
+}
+?>
 			<li><a href="index.php?m=agreements">Bilateral agreements</a></li>
 		</ul>
 	</div>
@@ -505,7 +513,6 @@ th { background-color: #EEEEEE; }
 function show_footers()
 {
   global $log, $logON, $info;
-
   if (strlen($info) > 0)
     print '<table><tbody><tr><td><pre>' . $info . '</pre></td></tr></tbody></table><br />' . "\n";
   if (($logON) && (strlen($log) > 0))
